@@ -11,83 +11,144 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background: #f0f2f5;
       color: #1a1a2e;
-      min-height: 100vh;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
+
+    /* Header */
     header {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      padding: 24px 32px;
-      text-align: center;
+      padding: 16px 24px;
+      flex-shrink: 0;
     }
-    header h1 { font-size: 24px; font-weight: 600; }
-    header p { font-size: 14px; opacity: 0.9; margin-top: 6px; }
-    .container {
-      max-width: 1200px;
-      margin: 24px auto;
-      padding: 0 24px;
+    header h1 { font-size: 20px; font-weight: 600; }
+    header p { font-size: 12px; opacity: 0.85; margin-top: 4px; }
+
+    /* Main layout */
+    .main-layout {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 200px;
+      background: #1a1a2e;
+      color: #ccc;
+      flex-shrink: 0;
+      overflow-y: auto;
+      padding: 12px 0;
+    }
+    .sidebar-group {
+      margin-bottom: 4px;
+    }
+    .sidebar-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 8px 20px 6px;
+    }
+    .sidebar-item {
+      padding: 10px 20px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s;
+      border-left: 3px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sidebar-item:hover {
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+    }
+    .sidebar-item.active {
+      background: rgba(102, 126, 234, 0.15);
+      color: #667eea;
+      border-left-color: #667eea;
+      font-weight: 500;
+    }
+    .sidebar-item .icon { font-size: 15px; flex-shrink: 0; }
+
+    /* Content area */
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 20px;
+      gap: 16px;
+    }
+
+    /* Editor area */
+    .editor-area {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      gap: 16px;
+      flex: 1;
+      min-height: 0;
     }
     .panel {
       background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      padding: 14px;
       display: flex;
       flex-direction: column;
     }
     .panel-title {
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 600;
-      color: #555;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      color: #888;
+      margin-bottom: 8px;
     }
-    .panel-title .icon { font-size: 16px; }
     textarea {
       width: 100%;
       flex: 1;
-      min-height: 280px;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      padding: 14px;
+      border: 1px solid #e8e8e8;
+      border-radius: 6px;
+      padding: 12px;
       font-size: 14px;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      resize: vertical;
+      resize: none;
       outline: none;
       transition: border-color 0.2s;
       line-height: 1.6;
     }
     textarea:focus { border-color: #667eea; }
-    .toolbar {
-      grid-column: 1 / -1;
+
+    /* Action bar */
+    .action-bar {
       background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      padding: 16px 20px;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      padding: 14px 18px;
+      flex-shrink: 0;
     }
-    .toolbar-group { margin-bottom: 12px; }
-    .toolbar-group:last-child { margin-bottom: 0; }
-    .group-label {
+    .action-bar-title {
       font-size: 12px;
       font-weight: 600;
       color: #888;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
     .btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
     .btn {
-      padding: 8px 16px;
+      padding: 7px 14px;
       border: 1px solid #e0e0e0;
-      border-radius: 8px;
+      border-radius: 6px;
       background: #fafafa;
       font-size: 13px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s;
       color: #333;
     }
     .btn:hover {
@@ -96,153 +157,223 @@
       border-color: #667eea;
     }
     .btn:active { transform: scale(0.96); }
-    .stats {
-      grid-column: 1 / -1;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      padding: 12px 20px;
+
+    /* Stats bar */
+    .stats-bar {
       display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      font-size: 13px;
-      color: #666;
+      gap: 16px;
+      font-size: 12px;
+      color: #999;
+      padding: 0 4px;
+      flex-shrink: 0;
     }
-    .stats span { font-weight: 600; color: #667eea; }
+    .stats-bar span { font-weight: 600; color: #667eea; }
+
+    /* Toast */
     .toast {
       position: fixed;
-      bottom: 32px;
+      bottom: 24px;
       left: 50%;
-      transform: translateX(-50%) translateY(100px);
+      transform: translateX(-50%) translateY(80px);
       background: #333;
       color: white;
-      padding: 10px 24px;
-      border-radius: 8px;
-      font-size: 14px;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-size: 13px;
       opacity: 0;
       transition: all 0.3s;
       z-index: 999;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Responsive */
     @media (max-width: 768px) {
-      .container { grid-template-columns: 1fr; }
+      .sidebar { width: 56px; }
+      .sidebar-title { display: none; }
+      .sidebar-item { padding: 12px 0; justify-content: center; font-size: 0; }
+      .sidebar-item .icon { font-size: 18px; }
+      .editor-area { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1> Text-Processing-Tools</h1>
-  <p>轻量在线文本处理工具箱 · 浏览器直接使用，无需安装</p>
+  <h1>📦 Text-Processing-Tools</h1>
+  <p>轻量在线文本处理工具箱 · 浏览器直接使用</p>
 </header>
 
-<div class="container">
+<div class="main-layout">
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-group">
+      <div class="sidebar-item active" onclick="switchCategory('space')">
+        <span class="icon">🔤</span> 去空格/换行
+      </div>
+      <div class="sidebar-item" onclick="switchCategory('case')">
+        <span class="icon">🔡</span> 大小写转换
+      </div>
+      <div class="sidebar-item" onclick="switchCategory('mask')">
+        <span class="icon">🔒</span> 文本脱敏
+      </div>
+    </div>
+    <div class="sidebar-group">
+      <div class="sidebar-title">编码</div>
+      <div class="sidebar-item" onclick="switchCategory('encode')">
+        <span class="icon">🔗</span> 编码转换
+      </div>
+      <div class="sidebar-item" onclick="switchCategory('cn')">
+        <span class="icon">🀄</span> 简繁转换
+      </div>
+    </div>
+    <div class="sidebar-group">
+      <div class="sidebar-title">工具</div>
+      <div class="sidebar-item" onclick="switchCategory('extract')">
+        <span class="icon">🔍</span> 提取 & 处理
+      </div>
+      <div class="sidebar-item" onclick="switchCategory('other')">
+        <span class="icon">⚙️</span> 其他
+      </div>
+    </div>
+  </nav>
 
-  <div class="panel">
-    <div class="panel-title"><span class="icon"></span> 原始文本</div>
-    <textarea id="input" placeholder="在这里粘贴或输入文本..."></textarea>
+  <!-- Content -->
+  <div class="content">
+    <!-- Editor -->
+    <div class="editor-area">
+      <div class="panel">
+        <div class="panel-title">📝 原始文本</div>
+        <textarea id="input" placeholder="在这里粘贴或输入文本..."></textarea>
+      </div>
+      <div class="panel">
+        <div class="panel-title">📤 处理结果</div>
+        <textarea id="output" placeholder="处理后的文本将显示在这里..." readonly></textarea>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div>总字符：<span id="charCount">0</span></div>
+      <div>中文字：<span id="cjkCount">0</span></div>
+      <div>英文词：<span id="wordCount">0</span></div>
+      <div>数字：<span id="digitCount">0</span></div>
+      <div>标点：<span id="punctCount">0</span></div>
+      <div>行数：<span id="lineCount">0</span></div>
+    </div>
+
+    <!-- Action bar -->
+    <div class="action-bar">
+      <div class="action-bar-title" id="actionTitle">🔤 去空格 & 换行</div>
+      <div class="btn-row" id="actionButtons"></div>
+    </div>
   </div>
-
-  <div class="panel">
-    <div class="panel-title"><span class="icon">📤</span> 处理结果</div>
-    <textarea id="output" placeholder="处理后的文本将显示在这里..." readonly></textarea>
-  </div>
-
-  <div class="toolbar">
-
-    <div class="toolbar-group">
-      <div class="group-label">去空格 & 换行</div>
-      <div class="btn-row">
-        <button class="btn" onclick="processText('trim')">去除首尾空格</button>
-        <button class="btn" onclick="processText('trimAllSpaces')">去除所有空格</button>
-        <button class="btn" onclick="processText('removeBlankLines')">去除空行</button>
-        <button class="btn" onclick="processText('mergeSpaces')">合并连续空格</button>
-        <button class="btn" onclick="processText('removeNewlines')">去除所有换行</button>
-      </div>
-    </div>
-
-    <div class="toolbar-group">
-      <div class="group-label">大小写转换</div>
-      <div class="btn-row">
-        <button class="btn" onclick="processText('upper')">全大写</button>
-        <button class="btn" onclick="processText('lower')">全小写</button>
-        <button class="btn" onclick="processText('capitalize')">首字母大写</button>
-        <button class="btn" onclick="processText('titleCase')">每个单词首字母大写</button>
-        <button class="btn" onclick="processText('swapCase')">大小写互换</button>
-      </div>
-    </div>
-
-    <div class="toolbar-group">
-      <div class="group-label">文本脱敏</div>
-      <div class="btn-row">
-        <button class="btn" onclick="processText('maskPhone')">手机号脱敏</button>
-        <button class="btn" onclick="processText('maskIdCard')">身份证脱敏</button>
-        <button class="btn" onclick="processText('maskEmail')">邮箱脱敏</button>
-        <button class="btn" onclick="processText('maskAll')">一键全部脱敏</button>
-      </div>
-    </div>
-
-    <div class="toolbar-group">
-      <div class="group-label">编码转换</div>
-      <div class="btn-row">
-        <button class="btn" onclick="processText('urlEncode')">URL 编码</button>
-        <button class="btn" onclick="processText('urlDecode')">URL 解码</button>
-        <button class="btn" onclick="processText('base64Encode')">Base64 编码</button>
-        <button class="btn" onclick="processText('base64Decode')">Base64 解码</button>
-        <button class="btn" onclick="processText('jsonFormat')">JSON 美化</button>
-        <button class="btn" onclick="processText('jsonMinify')">JSON 压缩</button>
-      </div>
-    </div>
-
-    <div class="toolbar-group">
-      <div class="group-label">简繁转换</div>
-      <div class="btn-row">
-        <button class="btn" onclick="processText('s2t')">简体 → 繁体</button>
-        <button class="btn" onclick="processText('t2s')">繁体 → 简体</button>
-      </div>
-    </div>
-
-    <div class="toolbar-group">
-      <div class="group-label">提取 & 处理</div>
-      <div class="btn-row">
-        <button class="btn" onclick="processText('extractPhone')">提取所有手机号</button>
-        <button class="btn" onclick="processText('extractEmail')">提取所有邮箱</button>
-        <button class="btn" onclick="processText('addLineNumbers')">添加行号</button>
-        <button class="btn" onclick="processText('timestampNow')">当前时间戳</button>
-        <button class="btn" onclick="processText('timestampToDate')">时间戳转日期</button>
-      </div>
-    </div>
-
-    <div class="toolbar-group">
-      <div class="group-label">其他</div>
-      <div class="btn-row">
-        <button class="btn" onclick="processText('copyOutput')">📋 复制结果</button>
-        <button class="btn" onclick="processText('clear')">🗑️ 清空</button>
-        <button class="btn" onclick="processText('reverse')">文本反转</button>
-        <button class="btn" onclick="processText('uniqueLines')">去重行</button>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="stats">
-    <div>总字符：<span id="charCount">0</span></div>
-    <div>中文字：<span id="cjkCount">0</span></div>
-    <div>英文词：<span id="wordCount">0</span></div>
-    <div>数字：<span id="digitCount">0</span></div>
-    <div>标点：<span id="punctCount">0</span></div>
-    <div>行数：<span id="lineCount">0</span></div>
-  </div>
-
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
+  // ============ Category definitions ============
+  const categories = {
+    space: {
+      title: '🔤 去空格 & 换行',
+      buttons: [
+        { label: '去除首尾空格', action: 'trim' },
+        { label: '去除所有空格', action: 'trimAllSpaces' },
+        { label: '去除空行', action: 'removeBlankLines' },
+        { label: '合并连续空格', action: 'mergeSpaces' },
+        { label: '去除所有换行', action: 'removeNewlines' },
+      ]
+    },
+    case: {
+      title: '🔡 大小写转换',
+      buttons: [
+        { label: '全大写', action: 'upper' },
+        { label: '全小写', action: 'lower' },
+        { label: '首字母大写', action: 'capitalize' },
+        { label: '每个单词首字母大写', action: 'titleCase' },
+        { label: '大小写互换', action: 'swapCase' },
+      ]
+    },
+    mask: {
+      title: '🔒 文本脱敏',
+      buttons: [
+        { label: '手机号脱敏', action: 'maskPhone' },
+        { label: '身份证脱敏', action: 'maskIdCard' },
+        { label: '邮箱脱敏', action: 'maskEmail' },
+        { label: '一键全部脱敏', action: 'maskAll' },
+      ]
+    },
+    encode: {
+      title: '🔗 编码转换',
+      buttons: [
+        { label: 'URL 编码', action: 'urlEncode' },
+        { label: 'URL 解码', action: 'urlDecode' },
+        { label: 'Base64 编码', action: 'base64Encode' },
+        { label: 'Base64 解码', action: 'base64Decode' },
+        { label: 'JSON 美化', action: 'jsonFormat' },
+        { label: 'JSON 压缩', action: 'jsonMinify' },
+      ]
+    },
+    cn: {
+      title: '🀄 简繁转换',
+      buttons: [
+        { label: '简体 → 繁体', action: 's2t' },
+        { label: '繁体 → 简体', action: 't2s' },
+      ]
+    },
+    extract: {
+      title: '🔍 提取 & 处理',
+      buttons: [
+        { label: '提取所有手机号', action: 'extractPhone' },
+        { label: '提取所有邮箱', action: 'extractEmail' },
+        { label: '添加行号', action: 'addLineNumbers' },
+        { label: '当前时间戳', action: 'timestampNow' },
+        { label: '时间戳转日期', action: 'timestampToDate' },
+      ]
+    },
+    other: {
+      title: '⚙️ 其他',
+      buttons: [
+        { label: '📋 复制结果', action: 'copyOutput' },
+        { label: '🗑️ 清空', action: 'clear' },
+        { label: '文本反转', action: 'reverse' },
+        { label: '去重行', action: 'uniqueLines' },
+      ]
+    },
+  };
+
+  let currentCategory = 'space';
+
+  // ============ Sidebar switching ============
+  function switchCategory(cat) {
+    currentCategory = cat;
+    document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    renderButtons();
+  }
+
+  function renderButtons() {
+    const cat = categories[currentCategory];
+    document.getElementById('actionTitle').textContent = cat.title;
+    const container = document.getElementById('actionButtons');
+    container.innerHTML = '';
+    cat.buttons.forEach(b => {
+      const btn = document.createElement('button');
+      btn.className = 'btn';
+      btn.textContent = b.label;
+      btn.onclick = () => processText(b.action);
+      container.appendChild(btn);
+    });
+  }
+
+  // ============ Text processing ============
   const input = document.getElementById('input');
   const output = document.getElementById('output');
-  const converter_s2t = OpenCC.Converter({ from: 'cn', to: 't' });
-  const converter_t2s = OpenCC.Converter({ from: 't', to: 'cn' });
+  let converter_s2t, converter_t2s;
+  try {
+    converter_s2t = OpenCC.Converter({ from: 'cn', to: 't' });
+    converter_t2s = OpenCC.Converter({ from: 't', to: 'cn' });
+  } catch(e) {}
 
   input.addEventListener('input', updateStats);
 
@@ -338,10 +469,12 @@
         catch { showToast('JSON 格式有误'); return; }
         break;
       case 's2t':
-        output.value = converter_s2t(text);
+        if (converter_s2t) output.value = converter_s2t(text);
+        else showToast('简繁转换库加载失败');
         break;
       case 't2s':
-        output.value = converter_t2s(text);
+        if (converter_t2s) output.value = converter_t2s(text);
+        else showToast('简繁转换库加载失败');
         break;
       case 'extractPhone':
         const phones = text.match(/1[3-9]\d{9}/g);
@@ -395,6 +528,9 @@
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
   }
+
+  // ============ Init ============
+  renderButtons();
 </script>
 
 </body>
