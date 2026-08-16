@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Text-Processing-Tools | 在线文本处理工具箱</title>
+  <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background: #f0f2f5;
       color: #1a1a2e;
       min-height: 100vh;
@@ -68,9 +69,7 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       padding: 16px 20px;
     }
-    .toolbar-group {
-      margin-bottom: 12px;
-    }
+    .toolbar-group { margin-bottom: 12px; }
     .toolbar-group:last-child { margin-bottom: 0; }
     .group-label {
       font-size: 12px;
@@ -80,11 +79,7 @@
       letter-spacing: 0.5px;
       margin-bottom: 8px;
     }
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
     .btn {
       padding: 8px 16px;
       border: 1px solid #e0e0e0;
@@ -108,7 +103,8 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       padding: 12px 20px;
       display: flex;
-      gap: 24px;
+      flex-wrap: wrap;
+      gap: 20px;
       font-size: 13px;
       color: #666;
     }
@@ -127,13 +123,9 @@
       transition: all 0.3s;
       z-index: 999;
     }
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     @media (max-width: 768px) {
       .container { grid-template-columns: 1fr; }
-      .stats { flex-wrap: wrap; gap: 12px; }
     }
   </style>
 </head>
@@ -157,6 +149,7 @@
   </div>
 
   <div class="toolbar">
+
     <div class="toolbar-group">
       <div class="group-label">去空格 & 换行</div>
       <div class="btn-row">
@@ -165,7 +158,6 @@
         <button class="btn" onclick="processText('removeBlankLines')">去除空行</button>
         <button class="btn" onclick="processText('mergeSpaces')">合并连续空格</button>
         <button class="btn" onclick="processText('removeNewlines')">去除所有换行</button>
-        <button class="btn" onclick="processText('normalizeNewlines')">统一换行符</button>
       </div>
     </div>
 
@@ -191,20 +183,54 @@
     </div>
 
     <div class="toolbar-group">
+      <div class="group-label">编码转换</div>
+      <div class="btn-row">
+        <button class="btn" onclick="processText('urlEncode')">URL 编码</button>
+        <button class="btn" onclick="processText('urlDecode')">URL 解码</button>
+        <button class="btn" onclick="processText('base64Encode')">Base64 编码</button>
+        <button class="btn" onclick="processText('base64Decode')">Base64 解码</button>
+        <button class="btn" onclick="processText('jsonFormat')">JSON 美化</button>
+        <button class="btn" onclick="processText('jsonMinify')">JSON 压缩</button>
+      </div>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">简繁转换</div>
+      <div class="btn-row">
+        <button class="btn" onclick="processText('s2t')">简体 → 繁体</button>
+        <button class="btn" onclick="processText('t2s')">繁体 → 简体</button>
+      </div>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">提取 & 处理</div>
+      <div class="btn-row">
+        <button class="btn" onclick="processText('extractPhone')">提取所有手机号</button>
+        <button class="btn" onclick="processText('extractEmail')">提取所有邮箱</button>
+        <button class="btn" onclick="processText('addLineNumbers')">添加行号</button>
+        <button class="btn" onclick="processText('timestampNow')">当前时间戳</button>
+        <button class="btn" onclick="processText('timestampToDate')">时间戳转日期</button>
+      </div>
+    </div>
+
+    <div class="toolbar-group">
       <div class="group-label">其他</div>
       <div class="btn-row">
         <button class="btn" onclick="processText('copyOutput')">📋 复制结果</button>
         <button class="btn" onclick="processText('clear')">🗑️ 清空</button>
         <button class="btn" onclick="processText('reverse')">文本反转</button>
         <button class="btn" onclick="processText('uniqueLines')">去重行</button>
-        <button class="btn" onclick="processText('sortLines')">排序行</button>
       </div>
     </div>
+
   </div>
 
   <div class="stats">
-    <div>字符数：<span id="charCount">0</span></div>
-    <div>单词数：<span id="wordCount">0</span></div>
+    <div>总字符：<span id="charCount">0</span></div>
+    <div>中文字：<span id="cjkCount">0</span></div>
+    <div>英文词：<span id="wordCount">0</span></div>
+    <div>数字：<span id="digitCount">0</span></div>
+    <div>标点：<span id="punctCount">0</span></div>
     <div>行数：<span id="lineCount">0</span></div>
   </div>
 
@@ -215,18 +241,28 @@
 <script>
   const input = document.getElementById('input');
   const output = document.getElementById('output');
+  const converter_s2t = OpenCC.Converter({ from: 'cn', to: 't' });
+  const converter_t2s = OpenCC.Converter({ from: 't', to: 'cn' });
 
   input.addEventListener('input', updateStats);
+
   function updateStats() {
     const text = input.value;
     document.getElementById('charCount').textContent = text.length;
-    document.getElementById('wordCount').textContent = text.trim() ? text.trim().split(/\s+/).length : 0;
+    document.getElementById('wordCount').textContent = text.trim()
+      ? text.trim().split(/\s+/).filter(w => /[a-zA-Z]/.test(w)).length : 0;
+    document.getElementById('cjkCount').textContent =
+      (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+    document.getElementById('digitCount').textContent =
+      (text.match(/\d/g) || []).length;
+    document.getElementById('punctCount').textContent =
+      (text.match(/[^\w\s\u4e00-\u9fff\u3400-\u4dbf]|_/g) || []).length;
     document.getElementById('lineCount').textContent = text ? text.split('\n').length : 0;
   }
 
   function processText(type) {
     let text = input.value;
-    if (!text && type !== 'clear' && type !== 'copyOutput') {
+    if (!text && type !== 'clear' && type !== 'copyOutput' && type !== 'timestampNow') {
       showToast('请先输入文本');
       return;
     }
@@ -246,9 +282,6 @@
         break;
       case 'removeNewlines':
         output.value = text.replace(/\n+/g, '');
-        break;
-      case 'normalizeNewlines':
-        output.value = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
         break;
       case 'upper':
         output.value = text.toUpperCase();
@@ -282,6 +315,56 @@
         text = text.replace(/(\w)[\w.]*@([\w.]+\.\w+)/g, '$1***@$2');
         output.value = text;
         break;
+      case 'urlEncode':
+        output.value = encodeURIComponent(text);
+        break;
+      case 'urlDecode':
+        try { output.value = decodeURIComponent(text); }
+        catch { showToast('URL 解码失败，格式有误'); return; }
+        break;
+      case 'base64Encode':
+        output.value = btoa(unescape(encodeURIComponent(text)));
+        break;
+      case 'base64Decode':
+        try { output.value = decodeURIComponent(escape(atob(text))); }
+        catch { showToast('Base64 解码失败，格式有误'); return; }
+        break;
+      case 'jsonFormat':
+        try { output.value = JSON.stringify(JSON.parse(text), null, 2); }
+        catch { showToast('JSON 格式有误'); return; }
+        break;
+      case 'jsonMinify':
+        try { output.value = JSON.stringify(JSON.parse(text)); }
+        catch { showToast('JSON 格式有误'); return; }
+        break;
+      case 's2t':
+        output.value = converter_s2t(text);
+        break;
+      case 't2s':
+        output.value = converter_t2s(text);
+        break;
+      case 'extractPhone':
+        const phones = text.match(/1[3-9]\d{9}/g);
+        output.value = phones ? phones.join('\n') : '未找到手机号';
+        break;
+      case 'extractEmail':
+        const emails = text.match(/[\w.+-]+@[\w-]+\.[\w.-]+/g);
+        output.value = emails ? emails.join('\n') : '未找到邮箱';
+        break;
+      case 'addLineNumbers':
+        output.value = text.split('\n').map((l, i) => `${i + 1}. ${l}`).join('\n');
+        break;
+      case 'timestampNow':
+        output.value = Math.floor(Date.now() / 1000).toString();
+        break;
+      case 'timestampToDate':
+        const ts = text.trim();
+        const tsNum = Number(ts);
+        if (!tsNum) { showToast('请输入有效的 Unix 时间戳'); return; }
+        const d = tsNum > 1e12 ? new Date(tsNum) : new Date(tsNum * 1000);
+        output.value = d.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
+          + '\n' + d.toISOString();
+        break;
       case 'copyOutput':
         if (output.value) {
           navigator.clipboard.writeText(output.value).then(() => showToast('已复制到剪贴板'));
@@ -300,9 +383,6 @@
         break;
       case 'uniqueLines':
         output.value = [...new Set(text.split('\n'))].join('\n');
-        break;
-      case 'sortLines':
-        output.value = text.split('\n').sort().join('\n');
         break;
     }
 
