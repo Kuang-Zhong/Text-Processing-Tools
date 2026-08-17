@@ -15,7 +15,6 @@
       display: flex;
       flex-direction: column;
     }
-
     header {
       background: #fff;
       border-bottom: 1px solid #e0e0e0;
@@ -25,9 +24,8 @@
       justify-content: space-between;
       flex-shrink: 0;
     }
-    .header-left h1 { font-size: 16px; font-weight: 600; color: #111; }
+    .header-left h1 { font-size: 16px; font-weight: 600; }
     .header-left p { font-size: 11px; color: #999; margin-top: 2px; }
-
     .device-switch {
       display: flex;
       border: 1px solid #ddd;
@@ -45,16 +43,8 @@
     }
     .device-btn.active { background: #111; color: #fff; }
     .device-btn:not(.active):hover { background: #f5f5f5; color: #333; }
-
-    .app-container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      overflow: hidden;
-    }
-
+    .app-container { flex: 1; display: flex; justify-content: center; overflow: hidden; }
     .desktop-view { display: flex; flex: 1; overflow: hidden; }
-
     .mobile-frame {
       display: none;
       width: 375px;
@@ -68,7 +58,6 @@
     .mobile-frame.active { display: flex; }
     .desktop-view.active { display: flex; }
     .desktop-view:not(.active) { display: none; }
-
     .sidebar {
       width: 180px;
       background: #fff;
@@ -92,14 +81,12 @@
       border-left-color: #111;
       font-weight: 600;
     }
-
     .mobile-tabs {
       display: flex;
       background: #fff;
       border-bottom: 1px solid #e0e0e0;
       overflow-x: auto;
       flex-shrink: 0;
-      -webkit-overflow-scrolling: touch;
     }
     .mobile-tabs::-webkit-scrollbar { display: none; }
     .mobile-tab {
@@ -109,16 +96,10 @@
       cursor: pointer;
       white-space: nowrap;
       border-bottom: 2px solid transparent;
-      transition: all 0.12s;
       flex-shrink: 0;
     }
     .mobile-tab:hover { color: #333; }
-    .mobile-tab.active {
-      color: #111;
-      border-bottom-color: #111;
-      font-weight: 600;
-    }
-
+    .mobile-tab.active { color: #111; border-bottom-color: #111; font-weight: 600; }
     .content {
       flex: 1;
       display: flex;
@@ -127,13 +108,7 @@
       padding: 14px;
       gap: 10px;
     }
-
-    .editor-area {
-      flex: 1;
-      min-height: 0;
-      display: grid;
-      gap: 10px;
-    }
+    .editor-area { flex: 1; min-height: 0; display: grid; gap: 10px; }
     .desktop-view .editor-area { grid-template-columns: 1fr 1fr; }
     .mobile-frame .editor-area { grid-template-columns: 1fr; flex: 1; }
     .panel {
@@ -150,12 +125,7 @@
       justify-content: space-between;
       margin-bottom: 6px;
     }
-    .panel-title {
-      font-size: 11px;
-      font-weight: 600;
-      color: #999;
-      letter-spacing: 0.5px;
-    }
+    .panel-title { font-size: 11px; font-weight: 600; color: #999; letter-spacing: 0.5px; }
     .panel-actions { display: flex; gap: 4px; }
     .panel-btn {
       padding: 3px 10px;
@@ -178,14 +148,12 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       resize: none;
       outline: none;
-      transition: border-color 0.15s;
       line-height: 1.6;
       min-height: 80px;
       background: #fafafa;
       color: #111;
     }
     textarea:focus { border-color: #999; background: #fff; }
-
     .stats-bar {
       display: flex;
       flex-wrap: wrap;
@@ -193,10 +161,8 @@
       font-size: 11px;
       color: #999;
       flex-shrink: 0;
-      padding: 4px 0;
     }
     .stats-bar span { font-weight: 600; color: #333; }
-
     .action-bar {
       background: #fff;
       border: 1px solid #e8e8e8;
@@ -204,13 +170,7 @@
       padding: 10px 12px;
       flex-shrink: 0;
     }
-    .action-bar-title {
-      font-size: 11px;
-      font-weight: 600;
-      color: #999;
-      margin-bottom: 8px;
-      letter-spacing: 0.5px;
-    }
+    .action-bar-title { font-size: 11px; font-weight: 600; color: #999; margin-bottom: 8px; letter-spacing: 0.5px; }
     .btn-row { display: flex; flex-wrap: wrap; gap: 5px; }
     .btn {
       padding: 5px 12px;
@@ -224,10 +184,7 @@
     }
     .btn:hover { background: #111; color: #fff; border-color: #111; }
     .btn:active { transform: scale(0.97); }
-
     .mobile-frame .btn { padding: 7px 12px; }
-    .mobile-frame .stats-bar { gap: 10px; }
-
     .toast {
       position: fixed;
       bottom: 20px;
@@ -243,6 +200,44 @@
       z-index: 999;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 20px;
+      width: 420px;
+      max-width: 90vw;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .modal h3 { font-size: 14px; font-weight: 600; margin-bottom: 14px; color: #111; }
+    .modal label { font-size: 12px; color: #666; display: block; margin-bottom: 4px; margin-top: 10px; }
+    .modal input, .modal textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      font-size: 13px;
+      outline: none;
+      font-family: inherit;
+      min-height: auto;
+    }
+    .modal input:focus, .modal textarea:focus { border-color: #999; }
+    .modal-btns { display: flex; gap: 8px; margin-top: 16px; justify-content: flex-end; }
+    .modal-btns .btn { padding: 6px 16px; }
+    .modal-btns .btn-primary { background: #111; color: #fff; border-color: #111; }
+    .modal-btns .btn-primary:hover { background: #333; }
+    .modal-check { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 12px; color: #666; }
   </style>
 </head>
 <body>
@@ -259,31 +254,26 @@
 </header>
 
 <div class="app-container">
-
   <div class="desktop-view active" id="desktopView">
     <nav class="sidebar">
-      <div class="sidebar-item active" data-cat="text" onclick="switchCategory(this, 'text')">文本清理</div>
-      <div class="sidebar-item" data-cat="format" onclick="switchCategory(this, 'format')">格式转换</div>
-      <div class="sidebar-item" data-cat="encode" onclick="switchCategory(this, 'encode')">编码与脱敏</div>
-      <div class="sidebar-item" data-cat="tools" onclick="switchCategory(this, 'tools')">实用工具</div>
+      <div class="sidebar-item active" data-cat="text" onclick="switchCategory(this,'text')">文本清理</div>
+      <div class="sidebar-item" data-cat="format" onclick="switchCategory(this,'format')">格式转换</div>
+      <div class="sidebar-item" data-cat="encode" onclick="switchCategory(this,'encode')">编码与脱敏</div>
+      <div class="sidebar-item" data-cat="tools" onclick="switchCategory(this,'tools')">实用工具</div>
     </nav>
     <div class="content">
       <div class="editor-area">
         <div class="panel">
           <div class="panel-header">
             <div class="panel-title">输入</div>
-            <div class="panel-actions">
-              <button class="panel-btn" onclick="doClear()">清空</button>
-            </div>
+            <div class="panel-actions"><button class="panel-btn" onclick="doClear()">清空</button></div>
           </div>
           <textarea id="input" placeholder="在此粘贴或输入文本..."></textarea>
         </div>
         <div class="panel">
           <div class="panel-header">
             <div class="panel-title">输出</div>
-            <div class="panel-actions">
-              <button class="panel-btn" onclick="doCopy()">复制</button>
-            </div>
+            <div class="panel-actions"><button class="panel-btn" onclick="doCopy()">复制</button></div>
           </div>
           <textarea id="output" placeholder="处理结果将显示在这里..." readonly></textarea>
         </div>
@@ -310,18 +300,14 @@
         <div class="panel">
           <div class="panel-header">
             <div class="panel-title">输入</div>
-            <div class="panel-actions">
-              <button class="panel-btn" onclick="doClear()">清空</button>
-            </div>
+            <div class="panel-actions"><button class="panel-btn" onclick="doClear()">清空</button></div>
           </div>
           <textarea id="inputM" placeholder="在此粘贴或输入文本..."></textarea>
         </div>
         <div class="panel">
           <div class="panel-header">
             <div class="panel-title">输出</div>
-            <div class="panel-actions">
-              <button class="panel-btn" onclick="doCopy()">复制</button>
-            </div>
+            <div class="panel-actions"><button class="panel-btn" onclick="doCopy()">复制</button></div>
           </div>
           <textarea id="outputM" placeholder="处理结果将显示在这里..." readonly></textarea>
         </div>
@@ -339,7 +325,71 @@
       </div>
     </div>
   </div>
+</div>
 
+<!-- 查找与替换弹窗 -->
+<div class="modal-overlay" id="findReplaceModal">
+  <div class="modal">
+    <h3>查找与替换</h3>
+    <label>查找内容</label>
+    <input type="text" id="findInput" placeholder="输入要查找的文本或正则">
+    <label>替换为</label>
+    <input type="text" id="replaceInput" placeholder="输入替换内容（留空则删除）">
+    <div class="modal-check">
+      <input type="checkbox" id="useRegex"> <span>使用正则表达式</span>
+    </div>
+    <div class="modal-check">
+      <input type="checkbox" id="replaceAll" checked> <span>替换全部（否则仅首个）</span>
+    </div>
+    <div class="modal-btns">
+      <button class="btn" onclick="closeModal('findReplaceModal')">取消</button>
+      <button class="btn btn-primary" onclick="doFindReplace()">执行</button>
+    </div>
+  </div>
+</div>
+
+<!-- 文本对比弹窗 -->
+<div class="modal-overlay" id="diffModal">
+  <div class="modal">
+    <h3>文本对比</h3>
+    <label>文本 B（输入框为文本 A）</label>
+    <textarea id="diffInput" style="min-height:120px" placeholder="粘贴第二段文本..."></textarea>
+    <div class="modal-btns">
+      <button class="btn" onclick="closeModal('diffModal')">取消</button>
+      <button class="btn btn-primary" onclick="doDiff()">对比</button>
+    </div>
+  </div>
+</div>
+
+<!-- 去除指定字符弹窗 -->
+<div class="modal-overlay" id="removeCharsModal">
+  <div class="modal">
+    <h3>去除指定字符</h3>
+    <label>要去除的字符</label>
+    <input type="text" id="removeCharsInput" placeholder="输入要去除的字符，如：0123456789">
+    <div class="modal-check">
+      <input type="checkbox" id="removeUseRegex"> <span>使用正则表达式</span>
+    </div>
+    <div class="modal-btns">
+      <button class="btn" onclick="closeModal('removeCharsModal')">取消</button>
+      <button class="btn btn-primary" onclick="doRemoveChars()">执行</button>
+    </div>
+  </div>
+</div>
+
+<!-- 正则匹配弹窗 -->
+<div class="modal-overlay" id="regexModal">
+  <div class="modal">
+    <h3>正则匹配</h3>
+    <label>正则表达式</label>
+    <input type="text" id="regexInput" placeholder="如：\d{3}-\d{4}">
+    <label>修饰符</label>
+    <input type="text" id="regexFlags" placeholder="如：gi（默认 g）" value="g">
+    <div class="modal-btns">
+      <button class="btn" onclick="closeModal('regexModal')">取消</button>
+      <button class="btn btn-primary" onclick="doRegexTest()">匹配</button>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -348,12 +398,13 @@
   const categories = {
     text: { title: '文本清理', buttons: [
       { label: '去除首尾空格', action: 'trim' },
-      { label: '去除所有空格', action: 'trimAllSpaces' },
+      { label: '压缩空白', action: 'compressSpace' },
       { label: '去除空行', action: 'removeBlankLines' },
-      { label: '合并连续空格', action: 'mergeSpaces' },
-      { label: '去除所有换行', action: 'removeNewlines' },
-      { label: '文本反转', action: 'reverse' },
       { label: '按行去重', action: 'uniqueLines' },
+      { label: '按词去重', action: 'uniqueWords' },
+      { label: '去除指定字符', action: 'removeChars', modal: 'removeCharsModal' },
+      { label: '升序排列', action: 'sortAsc' },
+      { label: '降序排列', action: 'sortDesc' },
     ]},
     format: { title: '格式转换', buttons: [
       { label: '转大写', action: 'upper' },
@@ -361,8 +412,14 @@
       { label: '首字母大写', action: 'capitalize' },
       { label: '每词首字母大写', action: 'titleCase' },
       { label: '大小写互换', action: 'swapCase' },
-      { label: '简体转繁体', action: 's2t' },
-      { label: '繁体转简体', action: 't2s' },
+      { label: '简体→繁体', action: 's2t' },
+      { label: '繁体→简体', action: 't2s' },
+      { label: '中文标点→英文', action: 'cnPunctToEn' },
+      { label: '英文标点→中文', action: 'enPunctToCn' },
+      { label: '全角→半角', action: 'fullToHalf' },
+      { label: '半角→全角', action: 'halfToFull' },
+      { label: '添加行号', action: 'addLineNumbers' },
+      { label: '去除行号', action: 'removeLineNumbers' },
     ]},
     encode: { title: '编码与脱敏', buttons: [
       { label: 'URL编码', action: 'urlEncode' },
@@ -379,7 +436,9 @@
     tools: { title: '实用工具', buttons: [
       { label: '提取手机号', action: 'extractPhone' },
       { label: '提取邮箱', action: 'extractEmail' },
-      { label: '添加行号', action: 'addLineNumbers' },
+      { label: '查找与替换', action: 'findReplace', modal: 'findReplaceModal' },
+      { label: '正则匹配', action: 'regexTest', modal: 'regexModal' },
+      { label: '文本对比', action: 'diff', modal: 'diffModal' },
       { label: '当前时间戳', action: 'timestampNow' },
       { label: '时间戳转日期', action: 'timestampToDate' },
     ]},
@@ -390,25 +449,22 @@
 
   function switchDevice(device) {
     currentDevice = device;
-    const desktop = document.getElementById('desktopView');
-    const mobile = document.getElementById('mobileView');
     document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
     event.currentTarget.classList.add('active');
+    const desktop = document.getElementById('desktopView');
+    const mobile = document.getElementById('mobileView');
     if (device === 'desktop') {
-      desktop.classList.add('active');
-      mobile.classList.remove('active');
+      desktop.classList.add('active'); mobile.classList.remove('active');
       document.getElementById('input').value = document.getElementById('inputM').value;
       document.getElementById('output').value = document.getElementById('outputM').value;
       updateStats('desktop');
     } else {
-      desktop.classList.remove('active');
-      mobile.classList.add('active');
+      desktop.classList.remove('active'); mobile.classList.add('active');
       document.getElementById('inputM').value = document.getElementById('input').value;
       document.getElementById('outputM').value = document.getElementById('output').value;
       updateStats('mobile');
     }
-    renderButtons();
-    renderMobileTabs();
+    renderButtons(); renderMobileTabs();
   }
 
   function switchCategory(el, cat) {
@@ -423,61 +479,164 @@
   function renderButtons() {
     const cat = categories[currentCategory];
     document.getElementById('actionTitle').textContent = cat.title;
-    const container = document.getElementById('actionButtons');
-    container.innerHTML = '';
+    const c = document.getElementById('actionButtons');
+    c.innerHTML = '';
     cat.buttons.forEach(b => {
       const btn = document.createElement('button');
-      btn.className = 'btn';
-      btn.textContent = b.label;
-      btn.onclick = () => processText(b.action);
-      container.appendChild(btn);
+      btn.className = 'btn'; btn.textContent = b.label;
+      btn.onclick = () => b.modal ? openModal(b.modal, b.action) : processText(b.action);
+      c.appendChild(btn);
     });
     document.getElementById('actionTitleM').textContent = cat.title;
-    const containerM = document.getElementById('actionButtonsM');
-    containerM.innerHTML = '';
+    const cM = document.getElementById('actionButtonsM');
+    cM.innerHTML = '';
     cat.buttons.forEach(b => {
       const btn = document.createElement('button');
-      btn.className = 'btn';
-      btn.textContent = b.label;
-      btn.onclick = () => processText(b.action);
-      containerM.appendChild(btn);
+      btn.className = 'btn'; btn.textContent = b.label;
+      btn.onclick = () => b.modal ? openModal(b.modal, b.action) : processText(b.action);
+      cM.appendChild(btn);
     });
   }
 
   function renderMobileTabs() {
-    const container = document.getElementById('mobileTabs');
-    container.innerHTML = '';
+    const c = document.getElementById('mobileTabs');
+    c.innerHTML = '';
     Object.keys(categories).forEach(key => {
-      const cat = categories[key];
       const tab = document.createElement('div');
       tab.className = 'mobile-tab' + (key === currentCategory ? ' active' : '');
       tab.dataset.cat = key;
-      tab.textContent = cat.title;
+      tab.textContent = categories[key].title;
       tab.onclick = () => switchCategory(tab, key);
-      container.appendChild(tab);
+      c.appendChild(tab);
     });
   }
 
-  function doCopy() {
-    const outputEl = currentDevice === 'mobile' ? document.getElementById('outputM') : document.getElementById('output');
-    if (outputEl.value) {
-      navigator.clipboard.writeText(outputEl.value).then(() => showToast('已复制'));
-    } else {
-      showToast('没有可复制的内容');
-    }
+  let pendingAction = '';
+  function openModal(id, action) {
+    pendingAction = action;
+    document.getElementById(id).classList.add('show');
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('show');
   }
 
+  function doCopy() {
+    const el = currentDevice === 'mobile' ? document.getElementById('outputM') : document.getElementById('output');
+    if (el.value) { navigator.clipboard.writeText(el.value).then(() => showToast('已复制')); }
+    else showToast('没有可复制的内容');
+  }
   function doClear() {
-    const inputEl = currentDevice === 'mobile' ? document.getElementById('inputM') : document.getElementById('input');
-    const outputEl = currentDevice === 'mobile' ? document.getElementById('outputM') : document.getElementById('output');
-    inputEl.value = '';
-    outputEl.value = '';
+    const i = getInput(), o = getOutput();
+    i.value = ''; o.value = '';
     updateStats(currentDevice);
     showToast('已清空');
   }
 
   function getInput() { return currentDevice === 'mobile' ? document.getElementById('inputM') : document.getElementById('input'); }
   function getOutput() { return currentDevice === 'mobile' ? document.getElementById('outputM') : document.getElementById('output'); }
+
+  function doFindReplace() {
+    const find = document.getElementById('findInput').value;
+    const replace = document.getElementById('replaceInput').value;
+    const isRegex = document.getElementById('useRegex').checked;
+    const isAll = document.getElementById('replaceAll').checked;
+    if (!find) { showToast('请输入查找内容'); return; }
+    const inputEl = getInput();
+    let text = inputEl.value;
+    try {
+      if (isRegex) {
+        const re = new RegExp(find, isAll ? 'g' : '');
+        getOutput().value = text.replace(re, replace);
+      } else {
+        if (isAll) {
+          getOutput().value = text.split(find).join(replace);
+        } else {
+          const idx = text.indexOf(find);
+          if (idx >= 0) getOutput().value = text.slice(0, idx) + replace + text.slice(idx + find.length);
+          else getOutput().value = text;
+        }
+      }
+    } catch(e) { showToast('正则表达式有误'); return; }
+    closeModal('findReplaceModal');
+    updateStats(currentDevice);
+    showToast('替换完成');
+  }
+
+  function doDiff() {
+    const textA = getInput().value;
+    const textB = document.getElementById('diffInput').value;
+    if (!textA || !textB) { showToast('请输入两段文本'); return; }
+    const linesA = textA.split('\n');
+    const linesB = textB.split('\n');
+    let result = [];
+    const maxLen = Math.max(linesA.length, linesB.length);
+    for (let i = 0; i < maxLen; i++) {
+      const a = i < linesA.length ? linesA[i] : undefined;
+      const b = i < linesB.length ? linesB[i] : undefined;
+      if (a === b) {
+        result.push('  ' + (a || ''));
+      } else {
+        if (a !== undefined) result.push('- ' + a);
+        if (b !== undefined) result.push('+ ' + b);
+      }
+    }
+    getOutput().value = result.join('\n');
+    closeModal('diffModal');
+    updateStats(currentDevice);
+    showToast('对比完成');
+  }
+
+  function doRemoveChars() {
+    const chars = document.getElementById('removeCharsInput').value;
+    const isRegex = document.getElementById('removeUseRegex').checked;
+    if (!chars) { showToast('请输入要去除的字符'); return; }
+    const text = getInput().value;
+    try {
+      if (isRegex) {
+        getOutput().value = text.replace(new RegExp(chars, 'g'), '');
+      } else {
+        const escaped = chars.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        getOutput().value = text.replace(new RegExp(escaped, 'g'), '');
+      }
+    } catch(e) { showToast('表达式有误'); return; }
+    closeModal('removeCharsModal');
+    updateStats(currentDevice);
+    showToast('去除完成');
+  }
+
+  function doRegexTest() {
+    const pattern = document.getElementById('regexInput').value;
+    const flags = document.getElementById('regexFlags').value || 'g';
+    if (!pattern) { showToast('请输入正则表达式'); return; }
+    const text = getInput().value;
+    try {
+      const re = new RegExp(pattern, flags);
+      const matches = text.match(re);
+      if (matches) {
+        let result = `匹配到 ${matches.length} 个结果：\n\n`;
+        matches.forEach((m, i) => { result += `${i + 1}. ${m}\n`; });
+        getOutput().value = result;
+      } else {
+        getOutput().value = '未找到匹配结果';
+      }
+    } catch(e) { showToast('正则表达式有误'); return; }
+    closeModal('regexModal');
+    updateStats(currentDevice);
+    showToast('匹配完成');
+  }
+
+  const cnToEnPunct = {
+    '，':',', '。':'.', '！':'!', '？':'?', '；':';', '：':':',
+    '\u201c':'"', '\u201d':'"', '\u2018':"'", '\u2019':"'",
+    '（':'(', '）':')', '【':'[', '】':']',
+    '《':'<', '》':'>', '、':',', '…':'...', '—':'-', '～':'~', '·':'.'
+  };
+  const enToCnPunct = {};
+  Object.keys(cnToEnPunct).forEach(k => { enToCnPunct[cnToEnPunct[k]] = k; });
+  Object.assign(enToCnPunct, {
+    ',':'，', '.':'。', '!':'！', '?':'？', ';':'；', ':':'：',
+    '(':'（', ')':'）', '[':'【', ']':'】', '<':'《', '>':'》', '-':'—', '~':'～'
+  });
 
   let converter_s2t, converter_t2s;
   try {
@@ -491,78 +650,72 @@
   function updateStats(device) {
     const el = device === 'mobile' ? document.getElementById('inputM') : document.getElementById('input');
     const text = el.value;
-    const prefix = device === 'mobile' ? 'M' : '';
-    document.getElementById('charCount' + prefix).textContent = text.length;
-    document.getElementById('wordCount' + prefix).textContent = text.trim()
+    const p = device === 'mobile' ? 'M' : '';
+    document.getElementById('charCount' + p).textContent = text.length;
+    document.getElementById('wordCount' + p).textContent = text.trim()
       ? text.trim().split(/\s+/).filter(w => /[a-zA-Z]/.test(w)).length : 0;
-    document.getElementById('cjkCount' + prefix).textContent =
-      (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
-    document.getElementById('digitCount' + prefix).textContent =
-      (text.match(/\d/g) || []).length;
-    if (!prefix) {
-      document.getElementById('punctCount').textContent =
-        (text.match(/[^\w\s\u4e00-\u9fff\u3400-\u4dbf]|_/g) || []).length;
-    }
-    document.getElementById('lineCount' + prefix).textContent = text ? text.split('\n').length : 0;
+    document.getElementById('cjkCount' + p).textContent = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+    document.getElementById('digitCount' + p).textContent = (text.match(/\d/g) || []).length;
+    if (!p) document.getElementById('punctCount').textContent = (text.match(/[^\w\s\u4e00-\u9fff\u3400-\u4dbf]|_/g) || []).length;
+    document.getElementById('lineCount' + p).textContent = text ? text.split('\n').length : 0;
   }
 
   function processText(type) {
-    const inputEl = getInput();
-    const outputEl = getOutput();
+    const inputEl = getInput(), outputEl = getOutput();
     let text = inputEl.value;
-    if (!text && type !== 'timestampNow') {
-      showToast('请先输入文本');
-      return;
-    }
+    if (!text && type !== 'timestampNow') { showToast('请先输入文本'); return; }
+
     switch (type) {
       case 'trim':
         outputEl.value = text.split('\n').map(l => l.trim()).join('\n').trim(); break;
-      case 'trimAllSpaces':
-        outputEl.value = text.replace(/\s+/g, ''); break;
+      case 'compressSpace':
+        outputEl.value = text.replace(/[ \t]+/g, ' ').replace(/\n{2,}/g, '\n').trim(); break;
       case 'removeBlankLines':
         outputEl.value = text.split('\n').filter(l => l.trim()).join('\n'); break;
-      case 'mergeSpaces':
-        outputEl.value = text.replace(/ +/g, ' '); break;
-      case 'removeNewlines':
-        outputEl.value = text.replace(/\n+/g, ''); break;
-      case 'reverse':
-        outputEl.value = text.split('').reverse().join(''); break;
       case 'uniqueLines':
         outputEl.value = [...new Set(text.split('\n'))].join('\n'); break;
-      case 'upper':
-        outputEl.value = text.toUpperCase(); break;
-      case 'lower':
-        outputEl.value = text.toLowerCase(); break;
-      case 'capitalize':
-        outputEl.value = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase(); break;
-      case 'titleCase':
-        outputEl.value = text.replace(/\b\w/g, c => c.toUpperCase()); break;
+      case 'uniqueWords':
+        outputEl.value = [...new Set(text.split(/\s+/))].join(' '); break;
+      case 'sortAsc':
+        outputEl.value = text.split('\n').filter(l => l.trim()).sort((a, b) => a.localeCompare(b, 'zh')).join('\n'); break;
+      case 'sortDesc':
+        outputEl.value = text.split('\n').filter(l => l.trim()).sort((a, b) => b.localeCompare(a, 'zh')).join('\n'); break;
+      case 'upper': outputEl.value = text.toUpperCase(); break;
+      case 'lower': outputEl.value = text.toLowerCase(); break;
+      case 'capitalize': outputEl.value = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase(); break;
+      case 'titleCase': outputEl.value = text.replace(/\b\w/g, c => c.toUpperCase()); break;
       case 'swapCase':
-        outputEl.value = text.split('').map(c =>
-          c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()
-        ).join(''); break;
+        outputEl.value = text.split('').map(c => c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()).join(''); break;
       case 's2t':
         if (converter_s2t) outputEl.value = converter_s2t(text);
         else showToast('简繁转换库加载失败'); break;
       case 't2s':
         if (converter_t2s) outputEl.value = converter_t2s(text);
         else showToast('简繁转换库加载失败'); break;
-      case 'urlEncode':
-        outputEl.value = encodeURIComponent(text); break;
+      case 'cnPunctToEn':
+        outputEl.value = text.replace(/[，。！？；：""''（）【】《》、…—～·]/g, m => cnToEnPunct[m] || m); break;
+      case 'enPunctToCn':
+        outputEl.value = text.replace(/[,.\-!?:;()\[\]<>~]/g, m => enToCnPunct[m] || m); break;
+      case 'fullToHalf':
+        outputEl.value = text.replace(/[\uFF01-\uFF5E]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))
+          .replace(/\u3000/g, ' '); break;
+      case 'halfToFull':
+        outputEl.value = text.replace(/[\u0021-\u007E]/g, c => String.fromCharCode(c.charCodeAt(0) + 0xFEE0))
+          .replace(/ /g, '\u3000'); break;
+      case 'addLineNumbers':
+        outputEl.value = text.split('\n').map((l, i) => `${i + 1}. ${l}`).join('\n'); break;
+      case 'removeLineNumbers':
+        outputEl.value = text.split('\n').map(l => l.replace(/^\s*\d+[\.\)\]、:：]\s*/, '')).join('\n'); break;
+      case 'urlEncode': outputEl.value = encodeURIComponent(text); break;
       case 'urlDecode':
-        try { outputEl.value = decodeURIComponent(text); }
-        catch { showToast('URL解码失败'); return; } break;
-      case 'base64Encode':
-        outputEl.value = btoa(unescape(encodeURIComponent(text))); break;
+        try { outputEl.value = decodeURIComponent(text); } catch { showToast('URL解码失败'); return; } break;
+      case 'base64Encode': outputEl.value = btoa(unescape(encodeURIComponent(text))); break;
       case 'base64Decode':
-        try { outputEl.value = decodeURIComponent(escape(atob(text))); }
-        catch { showToast('Base64解码失败'); return; } break;
+        try { outputEl.value = decodeURIComponent(escape(atob(text))); } catch { showToast('Base64解码失败'); return; } break;
       case 'jsonFormat':
-        try { outputEl.value = JSON.stringify(JSON.parse(text), null, 2); }
-        catch { showToast('JSON格式有误'); return; } break;
+        try { outputEl.value = JSON.stringify(JSON.parse(text), null, 2); } catch { showToast('JSON格式有误'); return; } break;
       case 'jsonMinify':
-        try { outputEl.value = JSON.stringify(JSON.parse(text)); }
-        catch { showToast('JSON格式有误'); return; } break;
+        try { outputEl.value = JSON.stringify(JSON.parse(text)); } catch { showToast('JSON格式有误'); return; } break;
       case 'maskPhone':
         outputEl.value = text.replace(/1[3-9]\d{9}/g, m => m.slice(0,3) + '****' + m.slice(7)); break;
       case 'maskIdCard':
@@ -580,31 +733,27 @@
       case 'extractEmail':
         const emails = text.match(/[\w.+-]+@[\w-]+\.[\w.-]+/g);
         outputEl.value = emails ? emails.join('\n') : '未找到邮箱'; break;
-      case 'addLineNumbers':
-        outputEl.value = text.split('\n').map((l,i) => `${i+1}. ${l}`).join('\n'); break;
       case 'timestampNow':
-        outputEl.value = Math.floor(Date.now()/1000).toString(); break;
+        outputEl.value = Math.floor(Date.now() / 1000).toString(); break;
       case 'timestampToDate':
-        const ts = text.trim();
-        const tsNum = Number(ts);
+        const ts = text.trim(), tsNum = Number(ts);
         if (!tsNum) { showToast('请输入有效时间戳'); return; }
         const d = tsNum > 1e12 ? new Date(tsNum) : new Date(tsNum * 1000);
-        outputEl.value = d.toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'}) + '\n' + d.toISOString(); break;
+        outputEl.value = d.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }) + '\n' + d.toISOString(); break;
     }
     updateStats(currentDevice);
     showToast('处理完成');
   }
 
   function showToast(msg) {
-    const toast = document.getElementById('toast');
-    toast.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 1200);
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 1200);
   }
 
   renderButtons();
   renderMobileTabs();
 </script>
-
 </body>
 </html>
