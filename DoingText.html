@@ -3,270 +3,375 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Text-Processing-Tools | 在线文本处理工具箱</title>
+  <title>Text-Processing-Tools</title>
   <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #f0f2f5;
-      color: #1a1a2e;
-      height: 100vh;
+      background: #fafafa;
+      color: #111;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
     }
 
     /* Header */
     header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 16px 24px;
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       flex-shrink: 0;
     }
-    header h1 { font-size: 20px; font-weight: 600; }
-    header p { font-size: 12px; opacity: 0.85; margin-top: 4px; }
+    .header-left h1 { font-size: 16px; font-weight: 600; color: #111; letter-spacing: -0.3px; }
+    .header-left p { font-size: 11px; color: #999; margin-top: 2px; }
 
-    /* Main layout */
-    .main-layout {
+    /* Device switch */
+    .device-switch {
+      display: flex;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .device-btn {
+      padding: 6px 14px;
+      font-size: 12px;
+      cursor: pointer;
+      border: none;
+      background: #fff;
+      color: #999;
+      transition: all 0.15s;
+    }
+    .device-btn.active {
+      background: #111;
+      color: #fff;
+    }
+    .device-btn:not(.active):hover { background: #f5f5f5; color: #333; }
+
+    /* App container */
+    .app-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Desktop layout */
+    .desktop-view {
       display: flex;
       flex: 1;
       overflow: hidden;
     }
 
-    /* Sidebar */
+    /* Mobile layout wrapper */
+    .mobile-frame {
+      display: none;
+      width: 375px;
+      height: calc(100vh - 45px);
+      background: #fafafa;
+      border-left: 1px solid #e0e0e0;
+      border-right: 1px solid #e0e0e0;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .mobile-frame.active { display: flex; }
+    .desktop-view.active { display: flex; }
+    .desktop-view:not(.active) { display: none; }
+
+    /* ========== Desktop Sidebar ========== */
     .sidebar {
-      width: 200px;
-      background: #1a1a2e;
-      color: #ccc;
+      width: 180px;
+      background: #fff;
+      border-right: 1px solid #e0e0e0;
       flex-shrink: 0;
       overflow-y: auto;
-      padding: 12px 0;
-    }
-    .sidebar-group {
-      margin-bottom: 4px;
-    }
-    .sidebar-title {
-      font-size: 11px;
-      font-weight: 600;
-      color: #666;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      padding: 8px 20px 6px;
+      padding: 8px 0;
     }
     .sidebar-item {
       padding: 10px 20px;
       font-size: 13px;
       cursor: pointer;
-      transition: all 0.15s;
-      border-left: 3px solid transparent;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      transition: all 0.12s;
+      border-left: 2px solid transparent;
+      color: #666;
     }
-    .sidebar-item:hover {
-      background: rgba(255,255,255,0.06);
-      color: #fff;
-    }
+    .sidebar-item:hover { background: #f5f5f5; color: #111; }
     .sidebar-item.active {
-      background: rgba(102, 126, 234, 0.15);
-      color: #667eea;
-      border-left-color: #667eea;
-      font-weight: 500;
+      background: #f0f0f0;
+      color: #111;
+      border-left-color: #111;
+      font-weight: 600;
     }
-    .sidebar-item .icon { font-size: 15px; flex-shrink: 0; }
 
-    /* Content area */
+    /* ========== Mobile Tab Bar ========== */
+    .mobile-tabs {
+      display: flex;
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      overflow-x: auto;
+      flex-shrink: 0;
+      -webkit-overflow-scrolling: touch;
+    }
+    .mobile-tabs::-webkit-scrollbar { display: none; }
+    .mobile-tab {
+      padding: 10px 16px;
+      font-size: 12px;
+      color: #999;
+      cursor: pointer;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: all 0.12s;
+      flex-shrink: 0;
+    }
+    .mobile-tab:hover { color: #333; }
+    .mobile-tab.active {
+      color: #111;
+      border-bottom-color: #111;
+      font-weight: 600;
+    }
+
+    /* ========== Content ========== */
     .content {
       flex: 1;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      padding: 20px;
-      gap: 16px;
+      padding: 14px;
+      gap: 10px;
     }
 
     /* Editor area */
     .editor-area {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
       flex: 1;
       min-height: 0;
+      display: grid;
+      gap: 10px;
+    }
+    .desktop-view .editor-area {
+      grid-template-columns: 1fr 1fr;
+    }
+    .mobile-frame .editor-area {
+      grid-template-columns: 1fr;
+      flex: 1;
     }
     .panel {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-      padding: 14px;
+      background: #fff;
+      border: 1px solid #e8e8e8;
+      border-radius: 4px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
     }
-    .panel-title {
-      font-size: 12px;
-      font-weight: 600;
-      color: #888;
-      margin-bottom: 8px;
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
     }
+    .panel-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .panel-actions {
+      display: flex;
+      gap: 4px;
+    }
+    .panel-btn {
+      padding: 3px 10px;
+      font-size: 11px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      background: #fff;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .panel-btn:hover { background: #111; color: #fff; border-color: #111; }
     textarea {
       width: 100%;
       flex: 1;
-      border: 1px solid #e8e8e8;
-      border-radius: 6px;
-      padding: 12px;
-      font-size: 14px;
+      border: 1px solid #eee;
+      border-radius: 3px;
+      padding: 10px;
+      font-size: 13px;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       resize: none;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.15s;
       line-height: 1.6;
+      min-height: 80px;
+      background: #fafafa;
+      color: #111;
     }
-    textarea:focus { border-color: #667eea; }
+    textarea:focus { border-color: #999; background: #fff; }
+
+    /* Stats */
+    .stats-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 11px;
+      color: #999;
+      flex-shrink: 0;
+      padding: 4px 0;
+    }
+    .stats-bar span { font-weight: 600; color: #333; }
 
     /* Action bar */
     .action-bar {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-      padding: 14px 18px;
+      background: #fff;
+      border: 1px solid #e8e8e8;
+      border-radius: 4px;
+      padding: 10px 12px;
       flex-shrink: 0;
     }
     .action-bar-title {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
-      color: #888;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      color: #999;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
-    .btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 5px; }
     .btn {
-      padding: 7px 14px;
-      border: 1px solid #e0e0e0;
-      border-radius: 6px;
-      background: #fafafa;
-      font-size: 13px;
+      padding: 5px 12px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      background: #fff;
+      font-size: 12px;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.12s;
       color: #333;
     }
-    .btn:hover {
-      background: #667eea;
-      color: white;
-      border-color: #667eea;
-    }
-    .btn:active { transform: scale(0.96); }
+    .btn:hover { background: #111; color: #fff; border-color: #111; }
+    .btn:active { transform: scale(0.97); }
 
-    /* Stats bar */
-    .stats-bar {
-      display: flex;
-      gap: 16px;
-      font-size: 12px;
-      color: #999;
-      padding: 0 4px;
-      flex-shrink: 0;
-    }
-    .stats-bar span { font-weight: 600; color: #667eea; }
+    /* Mobile specific */
+    .mobile-frame .btn { padding: 7px 12px; font-size: 12px; }
+    .mobile-frame .stats-bar { gap: 10px; font-size: 11px; }
 
     /* Toast */
     .toast {
       position: fixed;
-      bottom: 24px;
+      bottom: 20px;
       left: 50%;
-      transform: translateX(-50%) translateY(80px);
-      background: #333;
-      color: white;
-      padding: 8px 20px;
-      border-radius: 6px;
-      font-size: 13px;
+      transform: translateX(-50%) translateY(60px);
+      background: #111;
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 3px;
+      font-size: 12px;
       opacity: 0;
-      transition: all 0.3s;
+      transition: all 0.25s;
       z-index: 999;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .sidebar { width: 56px; }
-      .sidebar-title { display: none; }
-      .sidebar-item { padding: 12px 0; justify-content: center; font-size: 0; }
-      .sidebar-item .icon { font-size: 18px; }
-      .editor-area { grid-template-columns: 1fr; }
-    }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>📦 Text-Processing-Tools</h1>
-  <p>轻量在线文本处理工具箱 · 浏览器直接使用</p>
+  <div class="header-left">
+    <h1>Text-Processing-Tools</h1>
+    <p>Online Text Processing Toolkit</p>
+  </div>
+  <div class="device-switch">
+    <button class="device-btn active" onclick="switchDevice('desktop')">Desktop</button>
+    <button class="device-btn" onclick="switchDevice('mobile')">Mobile</button>
+  </div>
 </header>
 
-<div class="main-layout">
-  <!-- Sidebar -->
-  <nav class="sidebar">
-    <div class="sidebar-group">
-      <div class="sidebar-item active" onclick="switchCategory('space')">
-        <span class="icon">🔤</span> 去空格/换行
-      </div>
-      <div class="sidebar-item" onclick="switchCategory('case')">
-        <span class="icon">🔡</span> 大小写转换
-      </div>
-      <div class="sidebar-item" onclick="switchCategory('mask')">
-        <span class="icon">🔒</span> 文本脱敏
-      </div>
-    </div>
-    <div class="sidebar-group">
-      <div class="sidebar-title">编码</div>
-      <div class="sidebar-item" onclick="switchCategory('encode')">
-        <span class="icon">🔗</span> 编码转换
-      </div>
-      <div class="sidebar-item" onclick="switchCategory('cn')">
-        <span class="icon">🀄</span> 简繁转换
-      </div>
-    </div>
-    <div class="sidebar-group">
-      <div class="sidebar-title">工具</div>
-      <div class="sidebar-item" onclick="switchCategory('extract')">
-        <span class="icon">🔍</span> 提取 & 处理
-      </div>
-      <div class="sidebar-item" onclick="switchCategory('other')">
-        <span class="icon">⚙️</span> 其他
-      </div>
-    </div>
-  </nav>
+<div class="app-container">
 
-  <!-- Content -->
-  <div class="content">
-    <!-- Editor -->
-    <div class="editor-area">
-      <div class="panel">
-        <div class="panel-title">📝 原始文本</div>
-        <textarea id="input" placeholder="在这里粘贴或输入文本..."></textarea>
+  <!-- ===== Desktop View ===== -->
+  <div class="desktop-view active" id="desktopView">
+    <nav class="sidebar">
+      <div class="sidebar-item active" data-cat="text" onclick="switchCategory(this, 'text')">Text Cleaning</div>
+      <div class="sidebar-item" data-cat="format" onclick="switchCategory(this, 'format')">Format Convert</div>
+      <div class="sidebar-item" data-cat="encode" onclick="switchCategory(this, 'encode')">Encode & Mask</div>
+      <div class="sidebar-item" data-cat="tools" onclick="switchCategory(this, 'tools')">Utilities</div>
+    </nav>
+    <div class="content">
+      <div class="editor-area">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Input</div>
+            <div class="panel-actions">
+              <button class="panel-btn" onclick="doClear()">Clear</button>
+            </div>
+          </div>
+          <textarea id="input" placeholder="Paste or type text here..."></textarea>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Output</div>
+            <div class="panel-actions">
+              <button class="panel-btn" onclick="doCopy()">Copy</button>
+            </div>
+          </div>
+          <textarea id="output" placeholder="Result will appear here..." readonly></textarea>
+        </div>
       </div>
-      <div class="panel">
-        <div class="panel-title">📤 处理结果</div>
-        <textarea id="output" placeholder="处理后的文本将显示在这里..." readonly></textarea>
+      <div class="stats-bar">
+        <div>Chars: <span id="charCount">0</span></div>
+        <div>CJK: <span id="cjkCount">0</span></div>
+        <div>Words: <span id="wordCount">0</span></div>
+        <div>Digits: <span id="digitCount">0</span></div>
+        <div>Punct: <span id="punctCount">0</span></div>
+        <div>Lines: <span id="lineCount">0</span></div>
       </div>
-    </div>
-
-    <!-- Stats -->
-    <div class="stats-bar">
-      <div>总字符：<span id="charCount">0</span></div>
-      <div>中文字：<span id="cjkCount">0</span></div>
-      <div>英文词：<span id="wordCount">0</span></div>
-      <div>数字：<span id="digitCount">0</span></div>
-      <div>标点：<span id="punctCount">0</span></div>
-      <div>行数：<span id="lineCount">0</span></div>
-    </div>
-
-    <!-- Action bar -->
-    <div class="action-bar">
-      <div class="action-bar-title" id="actionTitle">🔤 去空格 & 换行</div>
-      <div class="btn-row" id="actionButtons"></div>
+      <div class="action-bar">
+        <div class="action-bar-title" id="actionTitle">Text Cleaning</div>
+        <div class="btn-row" id="actionButtons"></div>
+      </div>
     </div>
   </div>
+
+  <!-- ===== Mobile View ===== -->
+  <div class="mobile-frame" id="mobileView">
+    <div class="mobile-tabs" id="mobileTabs"></div>
+    <div class="content">
+      <div class="editor-area">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Input</div>
+            <div class="panel-actions">
+              <button class="panel-btn" onclick="doClear()">Clear</button>
+            </div>
+          </div>
+          <textarea id="inputM" placeholder="Paste or type text here..."></textarea>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Output</div>
+            <div class="panel-actions">
+              <button class="panel-btn" onclick="doCopy()">Copy</button>
+            </div>
+          </div>
+          <textarea id="outputM" placeholder="Result will appear here..." readonly></textarea>
+        </div>
+      </div>
+      <div class="stats-bar">
+        <div>Chars: <span id="charCountM">0</span></div>
+        <div>CJK: <span id="cjkCountM">0</span></div>
+        <div>Words: <span id="wordCountM">0</span></div>
+        <div>Digits: <span id="digitCountM">0</span></div>
+        <div>Lines: <span id="lineCountM">0</span></div>
+      </div>
+      <div class="action-bar">
+        <div class="action-bar-title" id="actionTitleM">Text Cleaning</div>
+        <div class="btn-row" id="actionButtonsM"></div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <div class="toast" id="toast"></div>
@@ -274,86 +379,88 @@
 <script>
   // ============ Category definitions ============
   const categories = {
-    space: {
-      title: '🔤 去空格 & 换行',
-      buttons: [
-        { label: '去除首尾空格', action: 'trim' },
-        { label: '去除所有空格', action: 'trimAllSpaces' },
-        { label: '去除空行', action: 'removeBlankLines' },
-        { label: '合并连续空格', action: 'mergeSpaces' },
-        { label: '去除所有换行', action: 'removeNewlines' },
-      ]
-    },
-    case: {
-      title: '🔡 大小写转换',
-      buttons: [
-        { label: '全大写', action: 'upper' },
-        { label: '全小写', action: 'lower' },
-        { label: '首字母大写', action: 'capitalize' },
-        { label: '每个单词首字母大写', action: 'titleCase' },
-        { label: '大小写互换', action: 'swapCase' },
-      ]
-    },
-    mask: {
-      title: '🔒 文本脱敏',
-      buttons: [
-        { label: '手机号脱敏', action: 'maskPhone' },
-        { label: '身份证脱敏', action: 'maskIdCard' },
-        { label: '邮箱脱敏', action: 'maskEmail' },
-        { label: '一键全部脱敏', action: 'maskAll' },
-      ]
-    },
-    encode: {
-      title: '🔗 编码转换',
-      buttons: [
-        { label: 'URL 编码', action: 'urlEncode' },
-        { label: 'URL 解码', action: 'urlDecode' },
-        { label: 'Base64 编码', action: 'base64Encode' },
-        { label: 'Base64 解码', action: 'base64Decode' },
-        { label: 'JSON 美化', action: 'jsonFormat' },
-        { label: 'JSON 压缩', action: 'jsonMinify' },
-      ]
-    },
-    cn: {
-      title: '🀄 简繁转换',
-      buttons: [
-        { label: '简体 → 繁体', action: 's2t' },
-        { label: '繁体 → 简体', action: 't2s' },
-      ]
-    },
-    extract: {
-      title: '🔍 提取 & 处理',
-      buttons: [
-        { label: '提取所有手机号', action: 'extractPhone' },
-        { label: '提取所有邮箱', action: 'extractEmail' },
-        { label: '添加行号', action: 'addLineNumbers' },
-        { label: '当前时间戳', action: 'timestampNow' },
-        { label: '时间戳转日期', action: 'timestampToDate' },
-      ]
-    },
-    other: {
-      title: '⚙️ 其他',
-      buttons: [
-        { label: '📋 复制结果', action: 'copyOutput' },
-        { label: '🗑️ 清空', action: 'clear' },
-        { label: '文本反转', action: 'reverse' },
-        { label: '去重行', action: 'uniqueLines' },
-      ]
-    },
+    text: { title: 'Text Cleaning', buttons: [
+      { label: 'Trim Spaces', action: 'trim' },
+      { label: 'Remove All Spaces', action: 'trimAllSpaces' },
+      { label: 'Remove Blank Lines', action: 'removeBlankLines' },
+      { label: 'Merge Spaces', action: 'mergeSpaces' },
+      { label: 'Remove Newlines', action: 'removeNewlines' },
+      { label: 'Reverse Text', action: 'reverse' },
+      { label: 'Unique Lines', action: 'uniqueLines' },
+    ]},
+    format: { title: 'Format Convert', buttons: [
+      { label: 'UPPERCASE', action: 'upper' },
+      { label: 'lowercase', action: 'lower' },
+      { label: 'Capitalize', action: 'capitalize' },
+      { label: 'Title Case', action: 'titleCase' },
+      { label: 'sWAP cASE', action: 'swapCase' },
+      { label: 'Simplified -> Traditional', action: 's2t' },
+      { label: 'Traditional -> Simplified', action: 't2s' },
+    ]},
+    encode: { title: 'Encode & Mask', buttons: [
+      { label: 'URL Encode', action: 'urlEncode' },
+      { label: 'URL Decode', action: 'urlDecode' },
+      { label: 'Base64 Encode', action: 'base64Encode' },
+      { label: 'Base64 Decode', action: 'base64Decode' },
+      { label: 'JSON Format', action: 'jsonFormat' },
+      { label: 'JSON Minify', action: 'jsonMinify' },
+      { label: 'Mask Phone', action: 'maskPhone' },
+      { label: 'Mask ID Card', action: 'maskIdCard' },
+      { label: 'Mask Email', action: 'maskEmail' },
+      { label: 'Mask All', action: 'maskAll' },
+    ]},
+    tools: { title: 'Utilities', buttons: [
+      { label: 'Extract Phones', action: 'extractPhone' },
+      { label: 'Extract Emails', action: 'extractEmail' },
+      { label: 'Add Line Numbers', action: 'addLineNumbers' },
+      { label: 'Current Timestamp', action: 'timestampNow' },
+      { label: 'Timestamp to Date', action: 'timestampToDate' },
+    ]},
   };
 
-  let currentCategory = 'space';
+  let currentCategory = 'text';
+  let currentDevice = 'desktop';
 
-  // ============ Sidebar switching ============
-  function switchCategory(cat) {
-    currentCategory = cat;
-    document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+  // ============ Device switch ============
+  function switchDevice(device) {
+    currentDevice = device;
+    const desktop = document.getElementById('desktopView');
+    const mobile = document.getElementById('mobileView');
+
+    document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
     event.currentTarget.classList.add('active');
+
+    if (device === 'desktop') {
+      desktop.classList.add('active');
+      mobile.classList.remove('active');
+      document.getElementById('input').value = document.getElementById('inputM').value;
+      document.getElementById('output').value = document.getElementById('outputM').value;
+      updateStats('desktop');
+    } else {
+      desktop.classList.remove('active');
+      mobile.classList.add('active');
+      document.getElementById('inputM').value = document.getElementById('input').value;
+      document.getElementById('outputM').value = document.getElementById('output').value;
+      updateStats('mobile');
+    }
+    renderButtons();
+    renderMobileTabs();
+  }
+
+  // ============ Sidebar / Tab switching ============
+  function switchCategory(el, cat) {
+    currentCategory = cat;
+    document.querySelectorAll('.sidebar-item').forEach(e => e.classList.remove('active'));
+    if (el) el.classList.add('active');
+    document.querySelectorAll('.mobile-tab').forEach(e => e.classList.remove('active'));
+    document.querySelectorAll(`.mobile-tab[data-cat="${cat}"]`).forEach(e => e.classList.add('active'));
     renderButtons();
   }
 
+  // ============ Render buttons ============
   function renderButtons() {
     const cat = categories[currentCategory];
+    // Desktop
     document.getElementById('actionTitle').textContent = cat.title;
     const container = document.getElementById('actionButtons');
     container.innerHTML = '';
@@ -364,173 +471,189 @@
       btn.onclick = () => processText(b.action);
       container.appendChild(btn);
     });
+    // Mobile
+    document.getElementById('actionTitleM').textContent = cat.title;
+    const containerM = document.getElementById('actionButtonsM');
+    containerM.innerHTML = '';
+    cat.buttons.forEach(b => {
+      const btn = document.createElement('button');
+      btn.className = 'btn';
+      btn.textContent = b.label;
+      btn.onclick = () => processText(b.action);
+      containerM.appendChild(btn);
+    });
+  }
+
+  // ============ Render mobile tabs ============
+  function renderMobileTabs() {
+    const container = document.getElementById('mobileTabs');
+    container.innerHTML = '';
+    Object.keys(categories).forEach(key => {
+      const cat = categories[key];
+      const tab = document.createElement('div');
+      tab.className = 'mobile-tab' + (key === currentCategory ? ' active' : '');
+      tab.dataset.cat = key;
+      tab.textContent = cat.title;
+      tab.onclick = () => switchCategory(tab, key);
+      container.appendChild(tab);
+    });
+  }
+
+  // ============ Global actions ============
+  function doCopy() {
+    const outputEl = currentDevice === 'mobile' ? document.getElementById('outputM') : document.getElementById('output');
+    if (outputEl.value) {
+      navigator.clipboard.writeText(outputEl.value).then(() => showToast('Copied'));
+    } else {
+      showToast('Nothing to copy');
+    }
+  }
+
+  function doClear() {
+    const inputEl = currentDevice === 'mobile' ? document.getElementById('inputM') : document.getElementById('input');
+    const outputEl = currentDevice === 'mobile' ? document.getElementById('outputM') : document.getElementById('output');
+    inputEl.value = '';
+    outputEl.value = '';
+    updateStats(currentDevice);
+    showToast('Cleared');
   }
 
   // ============ Text processing ============
-  const input = document.getElementById('input');
-  const output = document.getElementById('output');
+  function getInput() { return currentDevice === 'mobile' ? document.getElementById('inputM') : document.getElementById('input'); }
+  function getOutput() { return currentDevice === 'mobile' ? document.getElementById('outputM') : document.getElementById('output'); }
+
   let converter_s2t, converter_t2s;
   try {
     converter_s2t = OpenCC.Converter({ from: 'cn', to: 't' });
     converter_t2s = OpenCC.Converter({ from: 't', to: 'cn' });
   } catch(e) {}
 
-  input.addEventListener('input', updateStats);
+  document.getElementById('input').addEventListener('input', () => updateStats('desktop'));
+  document.getElementById('inputM').addEventListener('input', () => updateStats('mobile'));
 
-  function updateStats() {
-    const text = input.value;
-    document.getElementById('charCount').textContent = text.length;
-    document.getElementById('wordCount').textContent = text.trim()
+  function updateStats(device) {
+    const el = device === 'mobile' ? document.getElementById('inputM') : document.getElementById('input');
+    const text = el.value;
+    const prefix = device === 'mobile' ? 'M' : '';
+    document.getElementById('charCount' + prefix).textContent = text.length;
+    document.getElementById('wordCount' + prefix).textContent = text.trim()
       ? text.trim().split(/\s+/).filter(w => /[a-zA-Z]/.test(w)).length : 0;
-    document.getElementById('cjkCount').textContent =
+    document.getElementById('cjkCount' + prefix).textContent =
       (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
-    document.getElementById('digitCount').textContent =
+    document.getElementById('digitCount' + prefix).textContent =
       (text.match(/\d/g) || []).length;
-    document.getElementById('punctCount').textContent =
-      (text.match(/[^\w\s\u4e00-\u9fff\u3400-\u4dbf]|_/g) || []).length;
-    document.getElementById('lineCount').textContent = text ? text.split('\n').length : 0;
+    if (!prefix) {
+      document.getElementById('punctCount').textContent =
+        (text.match(/[^\w\s\u4e00-\u9fff\u3400-\u4dbf]|_/g) || []).length;
+    }
+    document.getElementById('lineCount' + prefix).textContent = text ? text.split('\n').length : 0;
   }
 
   function processText(type) {
-    let text = input.value;
-    if (!text && type !== 'clear' && type !== 'copyOutput' && type !== 'timestampNow') {
-      showToast('请先输入文本');
+    const inputEl = getInput();
+    const outputEl = getOutput();
+    let text = inputEl.value;
+    if (!text && type !== 'timestampNow') {
+      showToast('Please input text first');
       return;
     }
 
     switch (type) {
+      // Text Cleaning
       case 'trim':
-        output.value = text.split('\n').map(l => l.trim()).join('\n').trim();
-        break;
+        outputEl.value = text.split('\n').map(l => l.trim()).join('\n').trim(); break;
       case 'trimAllSpaces':
-        output.value = text.replace(/\s+/g, '');
-        break;
+        outputEl.value = text.replace(/\s+/g, ''); break;
       case 'removeBlankLines':
-        output.value = text.split('\n').filter(l => l.trim()).join('\n');
-        break;
+        outputEl.value = text.split('\n').filter(l => l.trim()).join('\n'); break;
       case 'mergeSpaces':
-        output.value = text.replace(/ +/g, ' ');
-        break;
+        outputEl.value = text.replace(/ +/g, ' '); break;
       case 'removeNewlines':
-        output.value = text.replace(/\n+/g, '');
-        break;
+        outputEl.value = text.replace(/\n+/g, ''); break;
+      case 'reverse':
+        outputEl.value = text.split('').reverse().join(''); break;
+      case 'uniqueLines':
+        outputEl.value = [...new Set(text.split('\n'))].join('\n'); break;
+      // Format Convert
       case 'upper':
-        output.value = text.toUpperCase();
-        break;
+        outputEl.value = text.toUpperCase(); break;
       case 'lower':
-        output.value = text.toLowerCase();
-        break;
+        outputEl.value = text.toLowerCase(); break;
       case 'capitalize':
-        output.value = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-        break;
+        outputEl.value = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase(); break;
       case 'titleCase':
-        output.value = text.replace(/\b\w/g, c => c.toUpperCase());
-        break;
+        outputEl.value = text.replace(/\b\w/g, c => c.toUpperCase()); break;
       case 'swapCase':
-        output.value = text.split('').map(c =>
+        outputEl.value = text.split('').map(c =>
           c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()
-        ).join('');
-        break;
-      case 'maskPhone':
-        output.value = text.replace(/1[3-9]\d{9}/g, m => m.slice(0, 3) + '****' + m.slice(7));
-        break;
-      case 'maskIdCard':
-        output.value = text.replace(/\d{17}[\dXx]/g, m => m.slice(0, 3) + '***********' + m.slice(14));
-        break;
-      case 'maskEmail':
-        output.value = text.replace(/(\w)[\w.]*@([\w.]+\.\w+)/g, '$1***@$2');
-        break;
-      case 'maskAll':
-        text = text.replace(/1[3-9]\d{9}/g, m => m.slice(0, 3) + '****' + m.slice(7));
-        text = text.replace(/\d{17}[\dXx]/g, m => m.slice(0, 3) + '***********' + m.slice(14));
-        text = text.replace(/(\w)[\w.]*@([\w.]+\.\w+)/g, '$1***@$2');
-        output.value = text;
-        break;
-      case 'urlEncode':
-        output.value = encodeURIComponent(text);
-        break;
-      case 'urlDecode':
-        try { output.value = decodeURIComponent(text); }
-        catch { showToast('URL 解码失败，格式有误'); return; }
-        break;
-      case 'base64Encode':
-        output.value = btoa(unescape(encodeURIComponent(text)));
-        break;
-      case 'base64Decode':
-        try { output.value = decodeURIComponent(escape(atob(text))); }
-        catch { showToast('Base64 解码失败，格式有误'); return; }
-        break;
-      case 'jsonFormat':
-        try { output.value = JSON.stringify(JSON.parse(text), null, 2); }
-        catch { showToast('JSON 格式有误'); return; }
-        break;
-      case 'jsonMinify':
-        try { output.value = JSON.stringify(JSON.parse(text)); }
-        catch { showToast('JSON 格式有误'); return; }
-        break;
+        ).join(''); break;
       case 's2t':
-        if (converter_s2t) output.value = converter_s2t(text);
-        else showToast('简繁转换库加载失败');
-        break;
+        if (converter_s2t) outputEl.value = converter_s2t(text);
+        else showToast('OpenCC load failed'); break;
       case 't2s':
-        if (converter_t2s) output.value = converter_t2s(text);
-        else showToast('简繁转换库加载失败');
-        break;
+        if (converter_t2s) outputEl.value = converter_t2s(text);
+        else showToast('OpenCC load failed'); break;
+      // Encode & Mask
+      case 'urlEncode':
+        outputEl.value = encodeURIComponent(text); break;
+      case 'urlDecode':
+        try { outputEl.value = decodeURIComponent(text); }
+        catch { showToast('URL decode failed'); return; } break;
+      case 'base64Encode':
+        outputEl.value = btoa(unescape(encodeURIComponent(text))); break;
+      case 'base64Decode':
+        try { outputEl.value = decodeURIComponent(escape(atob(text))); }
+        catch { showToast('Base64 decode failed'); return; } break;
+      case 'jsonFormat':
+        try { outputEl.value = JSON.stringify(JSON.parse(text), null, 2); }
+        catch { showToast('Invalid JSON'); return; } break;
+      case 'jsonMinify':
+        try { outputEl.value = JSON.stringify(JSON.parse(text)); }
+        catch { showToast('Invalid JSON'); return; } break;
+      case 'maskPhone':
+        outputEl.value = text.replace(/1[3-9]\d{9}/g, m => m.slice(0,3) + '****' + m.slice(7)); break;
+      case 'maskIdCard':
+        outputEl.value = text.replace(/\d{17}[\dXx]/g, m => m.slice(0,3) + '***********' + m.slice(14)); break;
+      case 'maskEmail':
+        outputEl.value = text.replace(/(\w)[\w.]*@([\w.]+\.\w+)/g, '$1***@$2'); break;
+      case 'maskAll':
+        text = text.replace(/1[3-9]\d{9}/g, m => m.slice(0,3) + '****' + m.slice(7));
+        text = text.replace(/\d{17}[\dXx]/g, m => m.slice(0,3) + '***********' + m.slice(14));
+        text = text.replace(/(\w)[\w.]*@([\w.]+\.\w+)/g, '$1***@$2');
+        outputEl.value = text; break;
+      // Utilities
       case 'extractPhone':
         const phones = text.match(/1[3-9]\d{9}/g);
-        output.value = phones ? phones.join('\n') : '未找到手机号';
-        break;
+        outputEl.value = phones ? phones.join('\n') : 'No phone numbers found'; break;
       case 'extractEmail':
         const emails = text.match(/[\w.+-]+@[\w-]+\.[\w.-]+/g);
-        output.value = emails ? emails.join('\n') : '未找到邮箱';
-        break;
+        outputEl.value = emails ? emails.join('\n') : 'No emails found'; break;
       case 'addLineNumbers':
-        output.value = text.split('\n').map((l, i) => `${i + 1}. ${l}`).join('\n');
-        break;
+        outputEl.value = text.split('\n').map((l,i) => `${i+1}. ${l}`).join('\n'); break;
       case 'timestampNow':
-        output.value = Math.floor(Date.now() / 1000).toString();
-        break;
+        outputEl.value = Math.floor(Date.now()/1000).toString(); break;
       case 'timestampToDate':
         const ts = text.trim();
         const tsNum = Number(ts);
-        if (!tsNum) { showToast('请输入有效的 Unix 时间戳'); return; }
+        if (!tsNum) { showToast('Invalid timestamp'); return; }
         const d = tsNum > 1e12 ? new Date(tsNum) : new Date(tsNum * 1000);
-        output.value = d.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
-          + '\n' + d.toISOString();
-        break;
-      case 'copyOutput':
-        if (output.value) {
-          navigator.clipboard.writeText(output.value).then(() => showToast('已复制到剪贴板'));
-        } else {
-          showToast('没有可复制的内容');
-        }
-        return;
-      case 'clear':
-        input.value = '';
-        output.value = '';
-        updateStats();
-        showToast('已清空');
-        return;
-      case 'reverse':
-        output.value = text.split('').reverse().join('');
-        break;
-      case 'uniqueLines':
-        output.value = [...new Set(text.split('\n'))].join('\n');
-        break;
+        outputEl.value = d.toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'}) + '\n' + d.toISOString(); break;
     }
 
-    showToast('处理完成');
+    updateStats(currentDevice);
+    showToast('Done');
   }
 
   function showToast(msg) {
     const toast = document.getElementById('toast');
     toast.textContent = msg;
     toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 1500);
+    setTimeout(() => toast.classList.remove('show'), 1200);
   }
 
   // ============ Init ============
   renderButtons();
+  renderMobileTabs();
 </script>
 
 </body>
