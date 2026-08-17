@@ -16,7 +16,6 @@
       flex-direction: column;
     }
 
-    /* Header */
     header {
       background: #fff;
       border-bottom: 1px solid #e0e0e0;
@@ -26,10 +25,9 @@
       justify-content: space-between;
       flex-shrink: 0;
     }
-    .header-left h1 { font-size: 16px; font-weight: 600; color: #111; letter-spacing: -0.3px; }
+    .header-left h1 { font-size: 16px; font-weight: 600; color: #111; }
     .header-left p { font-size: 11px; color: #999; margin-top: 2px; }
 
-    /* Device switch */
     .device-switch {
       display: flex;
       border: 1px solid #ddd;
@@ -45,13 +43,9 @@
       color: #999;
       transition: all 0.15s;
     }
-    .device-btn.active {
-      background: #111;
-      color: #fff;
-    }
+    .device-btn.active { background: #111; color: #fff; }
     .device-btn:not(.active):hover { background: #f5f5f5; color: #333; }
 
-    /* App container */
     .app-container {
       flex: 1;
       display: flex;
@@ -59,14 +53,8 @@
       overflow: hidden;
     }
 
-    /* Desktop layout */
-    .desktop-view {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
+    .desktop-view { display: flex; flex: 1; overflow: hidden; }
 
-    /* Mobile layout wrapper */
     .mobile-frame {
       display: none;
       width: 375px;
@@ -81,7 +69,6 @@
     .desktop-view.active { display: flex; }
     .desktop-view:not(.active) { display: none; }
 
-    /* ========== Desktop Sidebar ========== */
     .sidebar {
       width: 180px;
       background: #fff;
@@ -106,7 +93,6 @@
       font-weight: 600;
     }
 
-    /* ========== Mobile Tab Bar ========== */
     .mobile-tabs {
       display: flex;
       background: #fff;
@@ -133,7 +119,6 @@
       font-weight: 600;
     }
 
-    /* ========== Content ========== */
     .content {
       flex: 1;
       display: flex;
@@ -143,20 +128,14 @@
       gap: 10px;
     }
 
-    /* Editor area */
     .editor-area {
       flex: 1;
       min-height: 0;
       display: grid;
       gap: 10px;
     }
-    .desktop-view .editor-area {
-      grid-template-columns: 1fr 1fr;
-    }
-    .mobile-frame .editor-area {
-      grid-template-columns: 1fr;
-      flex: 1;
-    }
+    .desktop-view .editor-area { grid-template-columns: 1fr 1fr; }
+    .mobile-frame .editor-area { grid-template-columns: 1fr; flex: 1; }
     .panel {
       background: #fff;
       border: 1px solid #e8e8e8;
@@ -175,13 +154,9 @@
       font-size: 11px;
       font-weight: 600;
       color: #999;
-      text-transform: uppercase;
       letter-spacing: 0.5px;
     }
-    .panel-actions {
-      display: flex;
-      gap: 4px;
-    }
+    .panel-actions { display: flex; gap: 4px; }
     .panel-btn {
       padding: 3px 10px;
       font-size: 11px;
@@ -211,7 +186,6 @@
     }
     textarea:focus { border-color: #999; background: #fff; }
 
-    /* Stats */
     .stats-bar {
       display: flex;
       flex-wrap: wrap;
@@ -223,7 +197,6 @@
     }
     .stats-bar span { font-weight: 600; color: #333; }
 
-    /* Action bar */
     .action-bar {
       background: #fff;
       border: 1px solid #e8e8e8;
@@ -236,7 +209,6 @@
       font-weight: 600;
       color: #999;
       margin-bottom: 8px;
-      text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     .btn-row { display: flex; flex-wrap: wrap; gap: 5px; }
@@ -253,11 +225,9 @@
     .btn:hover { background: #111; color: #fff; border-color: #111; }
     .btn:active { transform: scale(0.97); }
 
-    /* Mobile specific */
-    .mobile-frame .btn { padding: 7px 12px; font-size: 12px; }
-    .mobile-frame .stats-bar { gap: 10px; font-size: 11px; }
+    .mobile-frame .btn { padding: 7px 12px; }
+    .mobile-frame .stats-bar { gap: 10px; }
 
-    /* Toast */
     .toast {
       position: fixed;
       bottom: 20px;
@@ -280,93 +250,91 @@
 <header>
   <div class="header-left">
     <h1>Text-Processing-Tools</h1>
-    <p>Online Text Processing Toolkit</p>
+    <p>在线文本处理工具箱</p>
   </div>
   <div class="device-switch">
-    <button class="device-btn active" onclick="switchDevice('desktop')">Desktop</button>
-    <button class="device-btn" onclick="switchDevice('mobile')">Mobile</button>
+    <button class="device-btn active" onclick="switchDevice('desktop')">电脑</button>
+    <button class="device-btn" onclick="switchDevice('mobile')">手机</button>
   </div>
 </header>
 
 <div class="app-container">
 
-  <!-- ===== Desktop View ===== -->
   <div class="desktop-view active" id="desktopView">
     <nav class="sidebar">
-      <div class="sidebar-item active" data-cat="text" onclick="switchCategory(this, 'text')">Text Cleaning</div>
-      <div class="sidebar-item" data-cat="format" onclick="switchCategory(this, 'format')">Format Convert</div>
-      <div class="sidebar-item" data-cat="encode" onclick="switchCategory(this, 'encode')">Encode & Mask</div>
-      <div class="sidebar-item" data-cat="tools" onclick="switchCategory(this, 'tools')">Utilities</div>
+      <div class="sidebar-item active" data-cat="text" onclick="switchCategory(this, 'text')">文本清理</div>
+      <div class="sidebar-item" data-cat="format" onclick="switchCategory(this, 'format')">格式转换</div>
+      <div class="sidebar-item" data-cat="encode" onclick="switchCategory(this, 'encode')">编码与脱敏</div>
+      <div class="sidebar-item" data-cat="tools" onclick="switchCategory(this, 'tools')">实用工具</div>
     </nav>
     <div class="content">
       <div class="editor-area">
         <div class="panel">
           <div class="panel-header">
-            <div class="panel-title">Input</div>
+            <div class="panel-title">输入</div>
             <div class="panel-actions">
-              <button class="panel-btn" onclick="doClear()">Clear</button>
+              <button class="panel-btn" onclick="doClear()">清空</button>
             </div>
           </div>
-          <textarea id="input" placeholder="Paste or type text here..."></textarea>
+          <textarea id="input" placeholder="在此粘贴或输入文本..."></textarea>
         </div>
         <div class="panel">
           <div class="panel-header">
-            <div class="panel-title">Output</div>
+            <div class="panel-title">输出</div>
             <div class="panel-actions">
-              <button class="panel-btn" onclick="doCopy()">Copy</button>
+              <button class="panel-btn" onclick="doCopy()">复制</button>
             </div>
           </div>
-          <textarea id="output" placeholder="Result will appear here..." readonly></textarea>
+          <textarea id="output" placeholder="处理结果将显示在这里..." readonly></textarea>
         </div>
       </div>
       <div class="stats-bar">
-        <div>Chars: <span id="charCount">0</span></div>
-        <div>CJK: <span id="cjkCount">0</span></div>
-        <div>Words: <span id="wordCount">0</span></div>
-        <div>Digits: <span id="digitCount">0</span></div>
-        <div>Punct: <span id="punctCount">0</span></div>
-        <div>Lines: <span id="lineCount">0</span></div>
+        <div>字符：<span id="charCount">0</span></div>
+        <div>中文：<span id="cjkCount">0</span></div>
+        <div>英文词：<span id="wordCount">0</span></div>
+        <div>数字：<span id="digitCount">0</span></div>
+        <div>标点：<span id="punctCount">0</span></div>
+        <div>行数：<span id="lineCount">0</span></div>
       </div>
       <div class="action-bar">
-        <div class="action-bar-title" id="actionTitle">Text Cleaning</div>
+        <div class="action-bar-title" id="actionTitle">文本清理</div>
         <div class="btn-row" id="actionButtons"></div>
       </div>
     </div>
   </div>
 
-  <!-- ===== Mobile View ===== -->
   <div class="mobile-frame" id="mobileView">
     <div class="mobile-tabs" id="mobileTabs"></div>
     <div class="content">
       <div class="editor-area">
         <div class="panel">
           <div class="panel-header">
-            <div class="panel-title">Input</div>
+            <div class="panel-title">输入</div>
             <div class="panel-actions">
-              <button class="panel-btn" onclick="doClear()">Clear</button>
+              <button class="panel-btn" onclick="doClear()">清空</button>
             </div>
           </div>
-          <textarea id="inputM" placeholder="Paste or type text here..."></textarea>
+          <textarea id="inputM" placeholder="在此粘贴或输入文本..."></textarea>
         </div>
         <div class="panel">
           <div class="panel-header">
-            <div class="panel-title">Output</div>
+            <div class="panel-title">输出</div>
             <div class="panel-actions">
-              <button class="panel-btn" onclick="doCopy()">Copy</button>
+              <button class="panel-btn" onclick="doCopy()">复制</button>
             </div>
           </div>
-          <textarea id="outputM" placeholder="Result will appear here..." readonly></textarea>
+          <textarea id="outputM" placeholder="处理结果将显示在这里..." readonly></textarea>
         </div>
       </div>
       <div class="stats-bar">
-        <div>Chars: <span id="charCountM">0</span></div>
-        <div>CJK: <span id="cjkCountM">0</span></div>
-        <div>Words: <span id="wordCountM">0</span></div>
-        <div>Digits: <span id="digitCountM">0</span></div>
-        <div>Lines: <span id="lineCountM">0</span></div>
+        <div>字符：<span id="charCountM">0</span></div>
+        <div>中文：<span id="cjkCountM">0</span></div>
+        <div>英文词：<span id="wordCountM">0</span></div>
+        <div>数字：<span id="digitCountM">0</span></div>
+        <div>行数：<span id="lineCountM">0</span></div>
       </div>
       <div class="action-bar">
-        <div class="action-bar-title" id="actionTitleM">Text Cleaning</div>
+        <div class="action-bar-title" id="actionTitleM">文本清理</div>
         <div class="btn-row" id="actionButtonsM"></div>
       </div>
     </div>
@@ -377,59 +345,55 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  // ============ Category definitions ============
   const categories = {
-    text: { title: 'Text Cleaning', buttons: [
-      { label: 'Trim Spaces', action: 'trim' },
-      { label: 'Remove All Spaces', action: 'trimAllSpaces' },
-      { label: 'Remove Blank Lines', action: 'removeBlankLines' },
-      { label: 'Merge Spaces', action: 'mergeSpaces' },
-      { label: 'Remove Newlines', action: 'removeNewlines' },
-      { label: 'Reverse Text', action: 'reverse' },
-      { label: 'Unique Lines', action: 'uniqueLines' },
+    text: { title: '文本清理', buttons: [
+      { label: '去除首尾空格', action: 'trim' },
+      { label: '去除所有空格', action: 'trimAllSpaces' },
+      { label: '去除空行', action: 'removeBlankLines' },
+      { label: '合并连续空格', action: 'mergeSpaces' },
+      { label: '去除所有换行', action: 'removeNewlines' },
+      { label: '文本反转', action: 'reverse' },
+      { label: '按行去重', action: 'uniqueLines' },
     ]},
-    format: { title: 'Format Convert', buttons: [
-      { label: 'UPPERCASE', action: 'upper' },
-      { label: 'lowercase', action: 'lower' },
-      { label: 'Capitalize', action: 'capitalize' },
-      { label: 'Title Case', action: 'titleCase' },
-      { label: 'sWAP cASE', action: 'swapCase' },
-      { label: 'Simplified -> Traditional', action: 's2t' },
-      { label: 'Traditional -> Simplified', action: 't2s' },
+    format: { title: '格式转换', buttons: [
+      { label: '转大写', action: 'upper' },
+      { label: '转小写', action: 'lower' },
+      { label: '首字母大写', action: 'capitalize' },
+      { label: '每词首字母大写', action: 'titleCase' },
+      { label: '大小写互换', action: 'swapCase' },
+      { label: '简体转繁体', action: 's2t' },
+      { label: '繁体转简体', action: 't2s' },
     ]},
-    encode: { title: 'Encode & Mask', buttons: [
-      { label: 'URL Encode', action: 'urlEncode' },
-      { label: 'URL Decode', action: 'urlDecode' },
-      { label: 'Base64 Encode', action: 'base64Encode' },
-      { label: 'Base64 Decode', action: 'base64Decode' },
-      { label: 'JSON Format', action: 'jsonFormat' },
-      { label: 'JSON Minify', action: 'jsonMinify' },
-      { label: 'Mask Phone', action: 'maskPhone' },
-      { label: 'Mask ID Card', action: 'maskIdCard' },
-      { label: 'Mask Email', action: 'maskEmail' },
-      { label: 'Mask All', action: 'maskAll' },
+    encode: { title: '编码与脱敏', buttons: [
+      { label: 'URL编码', action: 'urlEncode' },
+      { label: 'URL解码', action: 'urlDecode' },
+      { label: 'Base64编码', action: 'base64Encode' },
+      { label: 'Base64解码', action: 'base64Decode' },
+      { label: 'JSON格式化', action: 'jsonFormat' },
+      { label: 'JSON压缩', action: 'jsonMinify' },
+      { label: '手机号脱敏', action: 'maskPhone' },
+      { label: '身份证脱敏', action: 'maskIdCard' },
+      { label: '邮箱脱敏', action: 'maskEmail' },
+      { label: '一键全部脱敏', action: 'maskAll' },
     ]},
-    tools: { title: 'Utilities', buttons: [
-      { label: 'Extract Phones', action: 'extractPhone' },
-      { label: 'Extract Emails', action: 'extractEmail' },
-      { label: 'Add Line Numbers', action: 'addLineNumbers' },
-      { label: 'Current Timestamp', action: 'timestampNow' },
-      { label: 'Timestamp to Date', action: 'timestampToDate' },
+    tools: { title: '实用工具', buttons: [
+      { label: '提取手机号', action: 'extractPhone' },
+      { label: '提取邮箱', action: 'extractEmail' },
+      { label: '添加行号', action: 'addLineNumbers' },
+      { label: '当前时间戳', action: 'timestampNow' },
+      { label: '时间戳转日期', action: 'timestampToDate' },
     ]},
   };
 
   let currentCategory = 'text';
   let currentDevice = 'desktop';
 
-  // ============ Device switch ============
   function switchDevice(device) {
     currentDevice = device;
     const desktop = document.getElementById('desktopView');
     const mobile = document.getElementById('mobileView');
-
     document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
     event.currentTarget.classList.add('active');
-
     if (device === 'desktop') {
       desktop.classList.add('active');
       mobile.classList.remove('active');
@@ -447,7 +411,6 @@
     renderMobileTabs();
   }
 
-  // ============ Sidebar / Tab switching ============
   function switchCategory(el, cat) {
     currentCategory = cat;
     document.querySelectorAll('.sidebar-item').forEach(e => e.classList.remove('active'));
@@ -457,10 +420,8 @@
     renderButtons();
   }
 
-  // ============ Render buttons ============
   function renderButtons() {
     const cat = categories[currentCategory];
-    // Desktop
     document.getElementById('actionTitle').textContent = cat.title;
     const container = document.getElementById('actionButtons');
     container.innerHTML = '';
@@ -471,7 +432,6 @@
       btn.onclick = () => processText(b.action);
       container.appendChild(btn);
     });
-    // Mobile
     document.getElementById('actionTitleM').textContent = cat.title;
     const containerM = document.getElementById('actionButtonsM');
     containerM.innerHTML = '';
@@ -484,7 +444,6 @@
     });
   }
 
-  // ============ Render mobile tabs ============
   function renderMobileTabs() {
     const container = document.getElementById('mobileTabs');
     container.innerHTML = '';
@@ -499,13 +458,12 @@
     });
   }
 
-  // ============ Global actions ============
   function doCopy() {
     const outputEl = currentDevice === 'mobile' ? document.getElementById('outputM') : document.getElementById('output');
     if (outputEl.value) {
-      navigator.clipboard.writeText(outputEl.value).then(() => showToast('Copied'));
+      navigator.clipboard.writeText(outputEl.value).then(() => showToast('已复制'));
     } else {
-      showToast('Nothing to copy');
+      showToast('没有可复制的内容');
     }
   }
 
@@ -515,10 +473,9 @@
     inputEl.value = '';
     outputEl.value = '';
     updateStats(currentDevice);
-    showToast('Cleared');
+    showToast('已清空');
   }
 
-  // ============ Text processing ============
   function getInput() { return currentDevice === 'mobile' ? document.getElementById('inputM') : document.getElementById('input'); }
   function getOutput() { return currentDevice === 'mobile' ? document.getElementById('outputM') : document.getElementById('output'); }
 
@@ -554,12 +511,10 @@
     const outputEl = getOutput();
     let text = inputEl.value;
     if (!text && type !== 'timestampNow') {
-      showToast('Please input text first');
+      showToast('请先输入文本');
       return;
     }
-
     switch (type) {
-      // Text Cleaning
       case 'trim':
         outputEl.value = text.split('\n').map(l => l.trim()).join('\n').trim(); break;
       case 'trimAllSpaces':
@@ -574,7 +529,6 @@
         outputEl.value = text.split('').reverse().join(''); break;
       case 'uniqueLines':
         outputEl.value = [...new Set(text.split('\n'))].join('\n'); break;
-      // Format Convert
       case 'upper':
         outputEl.value = text.toUpperCase(); break;
       case 'lower':
@@ -589,27 +543,26 @@
         ).join(''); break;
       case 's2t':
         if (converter_s2t) outputEl.value = converter_s2t(text);
-        else showToast('OpenCC load failed'); break;
+        else showToast('简繁转换库加载失败'); break;
       case 't2s':
         if (converter_t2s) outputEl.value = converter_t2s(text);
-        else showToast('OpenCC load failed'); break;
-      // Encode & Mask
+        else showToast('简繁转换库加载失败'); break;
       case 'urlEncode':
         outputEl.value = encodeURIComponent(text); break;
       case 'urlDecode':
         try { outputEl.value = decodeURIComponent(text); }
-        catch { showToast('URL decode failed'); return; } break;
+        catch { showToast('URL解码失败'); return; } break;
       case 'base64Encode':
         outputEl.value = btoa(unescape(encodeURIComponent(text))); break;
       case 'base64Decode':
         try { outputEl.value = decodeURIComponent(escape(atob(text))); }
-        catch { showToast('Base64 decode failed'); return; } break;
+        catch { showToast('Base64解码失败'); return; } break;
       case 'jsonFormat':
         try { outputEl.value = JSON.stringify(JSON.parse(text), null, 2); }
-        catch { showToast('Invalid JSON'); return; } break;
+        catch { showToast('JSON格式有误'); return; } break;
       case 'jsonMinify':
         try { outputEl.value = JSON.stringify(JSON.parse(text)); }
-        catch { showToast('Invalid JSON'); return; } break;
+        catch { showToast('JSON格式有误'); return; } break;
       case 'maskPhone':
         outputEl.value = text.replace(/1[3-9]\d{9}/g, m => m.slice(0,3) + '****' + m.slice(7)); break;
       case 'maskIdCard':
@@ -621,13 +574,12 @@
         text = text.replace(/\d{17}[\dXx]/g, m => m.slice(0,3) + '***********' + m.slice(14));
         text = text.replace(/(\w)[\w.]*@([\w.]+\.\w+)/g, '$1***@$2');
         outputEl.value = text; break;
-      // Utilities
       case 'extractPhone':
         const phones = text.match(/1[3-9]\d{9}/g);
-        outputEl.value = phones ? phones.join('\n') : 'No phone numbers found'; break;
+        outputEl.value = phones ? phones.join('\n') : '未找到手机号'; break;
       case 'extractEmail':
         const emails = text.match(/[\w.+-]+@[\w-]+\.[\w.-]+/g);
-        outputEl.value = emails ? emails.join('\n') : 'No emails found'; break;
+        outputEl.value = emails ? emails.join('\n') : '未找到邮箱'; break;
       case 'addLineNumbers':
         outputEl.value = text.split('\n').map((l,i) => `${i+1}. ${l}`).join('\n'); break;
       case 'timestampNow':
@@ -635,13 +587,12 @@
       case 'timestampToDate':
         const ts = text.trim();
         const tsNum = Number(ts);
-        if (!tsNum) { showToast('Invalid timestamp'); return; }
+        if (!tsNum) { showToast('请输入有效时间戳'); return; }
         const d = tsNum > 1e12 ? new Date(tsNum) : new Date(tsNum * 1000);
         outputEl.value = d.toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'}) + '\n' + d.toISOString(); break;
     }
-
     updateStats(currentDevice);
-    showToast('Done');
+    showToast('处理完成');
   }
 
   function showToast(msg) {
@@ -651,7 +602,6 @@
     setTimeout(() => toast.classList.remove('show'), 1200);
   }
 
-  // ============ Init ============
   renderButtons();
   renderMobileTabs();
 </script>
